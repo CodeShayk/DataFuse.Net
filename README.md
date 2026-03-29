@@ -8,7 +8,7 @@
 [![Master-CodeQL](https://github.com/CodeShayk/DataFuse.Net/actions/workflows/Master-CodeQL.yml/badge.svg)](https://github.com/CodeShayk/DataFuse.Net/actions/workflows/Master-CodeQL.yml)
 [![.Net 9.0](https://img.shields.io/badge/.Net-9.0-blue)](https://dotnet.microsoft.com/en-us/download/dotnet/9.0)
 
-**DataFuse** is a declarative .NET framework that aggregates data from SQL databases, REST APIs, and any heterogeneous datsource into unified, strongly-typed objects — replacing hundreds of lines of manual orchestration code with clean, schema-driven configuration.
+**DataFuse** is a declarative framework that aggregates data from SQL databases, REST APIs, and any heterogeneous datsource into unified, strongly-typed objects — replacing hundreds of lines of manual orchestration code with clean, schema-driven configuration.
 
 ---
 
