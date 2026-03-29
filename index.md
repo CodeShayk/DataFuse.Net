@@ -1,4 +1,4 @@
-# Schemio Framework - Complete Developer Guide
+# DataFuse Framework - Complete Developer Guide
 
 ## Table of Contents
 1. [Introduction](#introduction)
@@ -21,7 +21,7 @@
 
 ## Introduction
 
-**Schemio** is a powerful .NET library designed to aggregate data from heterogeneous data stores using a schema-driven approach. It enables developers to hydrate complex object graphs by fetching data from multiple sources (SQL databases, Web APIs, NoSQL stores) using XPath and JSONPath schema mappings.
+**DataFuse** is a powerful .NET library designed to aggregate data from heterogeneous data stores using a schema-driven approach. It enables developers to hydrate complex object graphs by fetching data from multiple sources (SQL databases, Web APIs, NoSQL stores) using XPath and JSONPath schema mappings.
 
 ### Key Benefits
 
@@ -78,12 +78,12 @@ customer.Communication = communication;
 - Limited reusability
 - Performance issues with sequential calls
 
-### Schemio's Solution
+### DataFuse's Solution
 
-Schemio provides a declarative, schema-driven approach:
+DataFuse provides a declarative, schema-driven approach:
 
 ```csharp
-// Schemio approach - declarative and maintainable
+// DataFuse approach - declarative and maintainable
 public class CustomerConfiguration : EntityConfiguration<Customer>
 {
     public override IEnumerable<Mapping<Customer, IQueryResult>> GetSchema()
@@ -512,7 +512,7 @@ This hierarchical structure ensures that:
 
 ### Core Packages
 
-#### 1. Schemio.Core
+#### 1. DataFuse.Integration
 **Purpose**: Foundation package providing core interfaces and implementations.
 
 **Key Components:**
@@ -524,10 +524,10 @@ This hierarchical structure ensures that:
 
 **Installation:**
 ```bash
-Install-Package Schemio.Core
+Install-Package DataFuse.Integration
 ```
 
-#### 2. Schemio.SQL
+#### 2. DataFuse.Adapters.SQL
 **Purpose**: SQL database support using Dapper for query execution.
 
 **Key Components:**
@@ -537,7 +537,7 @@ Install-Package Schemio.Core
 
 **Installation:**
 ```bash
-Install-Package Schemio.SQL
+Install-Package DataFuse.Adapters.SQL
 ```
 
 **Supported Databases:**
@@ -547,7 +547,7 @@ Install-Package Schemio.SQL
 - PostgreSQL
 - Oracle (with appropriate providers)
 
-#### 3. Schemio.EntityFramework
+#### 3. DataFuse.Adapters.EntityFramework
 **Purpose**: Entity Framework Core integration for advanced ORM scenarios.
 
 **Key Components:**
@@ -557,10 +557,10 @@ Install-Package Schemio.SQL
 
 **Installation:**
 ```bash
-Install-Package Schemio.EntityFramework
+Install-Package DataFuse.Adapters.EntityFramework
 ```
 
-#### 4. Schemio.API
+#### 4. DataFuse.Adapters.WebAPI
 **Purpose**: HTTP/REST API data source support using HttpClient.
 
 **Key Components:**
@@ -571,17 +571,17 @@ Install-Package Schemio.EntityFramework
 
 **Installation:**
 ```bash
-Install-Package Schemio.API
+Install-Package DataFuse.Adapters.WebAPI
 ```
 
 ### Package Compatibility Matrix
 
 | Package | .NET Framework | .NET Standard | .NET Core/.NET |
 |---------|---------------|---------------|----------------|
-| Schemio.Core | 4.6.2+ | 2.0, 2.1 | 9.0+ |
-| Schemio.SQL | 4.6.2+ | 2.1 | 9.0+ |
-| Schemio.EntityFramework | - | - | 9.0+ |
-| Schemio.API | 4.6.2+ | 2.0, 2.1 | 9.0+ |
+| DataFuse.Integration | 4.6.2+ | 2.0, 2.1 | 9.0+ |
+| DataFuse.Adapters.SQL | 4.6.2+ | 2.1 | 9.0+ |
+| DataFuse.Adapters.EntityFramework | - | - | 9.0+ |
+| DataFuse.Adapters.WebAPI | 4.6.2+ | 2.0, 2.1 | 9.0+ |
 
 ---
 
@@ -592,10 +592,10 @@ Install-Package Schemio.API
 First, install the required packages:
 
 ```bash
-Install-Package Schemio.Core
-Install-Package Schemio.SQL  # For SQL database support
-Install-Package Schemio.API  # For REST API support
-Install-Package Schemio.EntityFramework # For Entity Framework support
+Install-Package DataFuse.Integration
+Install-Package DataFuse.Adapters.SQL  # For SQL database support
+Install-Package DataFuse.Adapters.WebAPI  # For REST API support
+Install-Package DataFuse.Adapters.EntityFramework # For Entity Framework support
 ```
 
 ### 2. Define Your Entity
@@ -729,9 +729,9 @@ public class ProductConfiguration : EntityConfiguration<Product>
 
 ```csharp
 // Using fluent interface
-services.UseSchemio()
+services.UseDataFuse()
     .WithEngine(c => new QueryEngine(sqlConfiguration))  // SQL support
-    .WithEngine<Schemio.API.QueryEngine>()              // API support
+    .WithEngine<DataFuse.Adapters.WebAPI.QueryEngine>()              // API support
     .WithPathMatcher(c => new XPathMatcher())
     .WithEntityConfiguration<Product>(c => new ProductConfiguration());
 
@@ -1460,7 +1460,7 @@ public class OptimizedTransformer : BaseTransformer<CollectionResult<ItemResult>
 
 ### Caching Support
 
-Schemio provides built-in caching for expensive query results:
+DataFuse provides built-in caching for expensive query results:
 
 #### Enable Caching
 ```csharp
@@ -1582,7 +1582,7 @@ public class SafeTransformer : BaseTransformer<CustomerResult, Customer>
 
 ### Parallel Query Execution
 
-Schemio automatically executes independent queries in parallel:
+DataFuse automatically executes independent queries in parallel:
 
 ```csharp
 // These queries will execute in parallel since they're at the same level
@@ -1618,7 +1618,7 @@ public class CustomPathMatcher : ISchemaPathMatcher
 }
 
 // Register custom matcher
-services.UseSchemio()
+services.UseDataFuse()
     .WithPathMatcher(c => new CustomPathMatcher());
 ```
 
@@ -2057,7 +2057,7 @@ public class ResilientDataProvider<T> : IDataProvider<T> where T : IEntity, new(
 
 #### Connection Management
 ```csharp
-// Good: Let Schemio manage connections
+// Good: Let DataFuse manage connections
 public class EfficientQuery : SQLQuery<CustomerResult>
 {
     protected override Func<IDbConnection, Task<CustomerResult>> GetQuery(
@@ -3180,8 +3180,8 @@ public class ApplicationInsightsDataProvider<T> : IDataProvider<T> where T : IEn
 
     public T GetData(IEntityRequest request)
     {
-        using var operation = telemetryClient.StartOperation<DependencyTelemetry>("Schemio.GetData");
-        operation.Telemetry.Type = "Schemio";
+        using var operation = telemetryClient.StartOperation<DependencyTelemetry>("DataFuse.GetData");
+        operation.Telemetry.Type = "DataFuse";
         operation.Telemetry.Target = typeof(T).Name;
 
         try
@@ -3189,7 +3189,7 @@ public class ApplicationInsightsDataProvider<T> : IDataProvider<T> where T : IEn
             var result = innerProvider.GetData(request);
             operation.Telemetry.Success = true;
             
-            telemetryClient.TrackMetric($"Schemio.{typeof(T).Name}.Success", 1);
+            telemetryClient.TrackMetric($"DataFuse.{typeof(T).Name}.Success", 1);
             
             return result;
         }
@@ -3197,7 +3197,7 @@ public class ApplicationInsightsDataProvider<T> : IDataProvider<T> where T : IEn
         {
             operation.Telemetry.Success = false;
             telemetryClient.TrackException(ex);
-            telemetryClient.TrackMetric($"Schemio.{typeof(T).Name}.Error", 1);
+            telemetryClient.TrackMetric($"DataFuse.{typeof(T).Name}.Error", 1);
             throw;
         }
     }
@@ -3240,7 +3240,7 @@ public class PrometheusDataProvider<T> : IDataProvider<T> where T : IEntity
 
 ## Conclusion
 
-Schemio provides a powerful, extensible framework for aggregating data from heterogeneous data sources. Its schema-driven approach, combined with flexible query and transformation capabilities, makes it an ideal choice for modern applications that need to combine data from multiple systems.
+DataFuse provides a powerful, extensible framework for aggregating data from heterogeneous data sources. Its schema-driven approach, combined with flexible query and transformation capabilities, makes it an ideal choice for modern applications that need to combine data from multiple systems.
 
 ### Key Takeaways
 
@@ -3250,7 +3250,7 @@ Schemio provides a powerful, extensible framework for aggregating data from hete
 4. **Type Safe**: Strong typing throughout the pipeline reduces runtime errors
 5. **Testable**: Clear separation of concerns makes unit testing straightforward
 
-### When to Use Schemio
+### When to Use DataFuse
 
 - **Microservices Architectures**: When you need to aggregate data from multiple services
 - **Legacy System Integration**: When modernizing applications that need to pull from various data sources
@@ -3265,4 +3265,4 @@ Schemio provides a powerful, extensible framework for aggregating data from hete
 - **Discussions**: Join the community discussions for questions and best practices
 - **Samples**: Check out the example projects in the repository for real-world usage patterns
 
-The Schemio framework continues to evolve with the community's needs. Its extensible design ensures that as new data sources and patterns emerge, the framework can adapt while maintaining backward compatibility and ease of use.
+The DataFuse framework continues to evolve with the community's needs. Its extensible design ensures that as new data sources and patterns emerge, the framework can adapt while maintaining backward compatibility and ease of use.
