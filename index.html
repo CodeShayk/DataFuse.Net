@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Schemio Framework - Complete Developer Guide</title>
+    <title>DataFuse Framework - Declarative Multi-Source Data Aggregation for .NET</title>
+    <meta name="description" content="DataFuse is a declarative .NET framework that aggregates data from SQL databases, REST APIs, and Entity Framework into unified, strongly-typed objects.">
     <style>
         :root {
             --primary-color: #0969da;
@@ -13,30 +14,23 @@
             --success-color: #1a7f37;
             --warning-color: #bf8700;
             --danger-color: #cf222e;
-            --info-color: #0969da;
             --dark-color: #24292f;
             --light-color: #f6f8fa;
             --border-color: #d0d7de;
-            --border-muted: #21262d;
             --text-primary: #24292f;
             --text-secondary: #656d76;
-            --text-muted: #8b949e;
             --bg-primary: #ffffff;
             --bg-secondary: #f6f8fa;
-            --bg-tertiary: #f0f0f0;
             --code-bg: #f6f8fa;
-            --shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
             --shadow-lg: 0 8px 24px rgba(140, 149, 159, 0.2);
             --border-radius: 6px;
             --font-mono: 'SFMono-Regular', 'Consolas', 'Liberation Mono', 'Menlo', monospace;
         }
 
-        * {
-            box-sizing: border-box;
-        }
+        * { box-sizing: border-box; }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', 'Helvetica', 'Arial', sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif;
             line-height: 1.6;
             color: var(--text-primary);
             margin: 0;
@@ -59,7 +53,7 @@
             position: sticky;
             top: 0;
             z-index: 100;
-            border-bottom: 1px solid var(--border-muted);
+            border-bottom: 1px solid #30363d;
         }
 
         .nav-container {
@@ -81,7 +75,7 @@
         }
 
         .logo::before {
-            content: '⚡';
+            content: '\26A1';
             margin-right: 0.5rem;
             font-size: 1.5rem;
         }
@@ -91,13 +85,13 @@
             list-style: none;
             margin: 0;
             padding: 0;
-            gap: 2rem;
+            gap: 1.5rem;
         }
 
         .nav-links a {
             color: #f0f6fc;
             text-decoration: none;
-            padding: 0.5rem 1rem;
+            padding: 0.5rem 0.75rem;
             border-radius: var(--border-radius);
             transition: all 0.2s ease;
             font-size: 0.875rem;
@@ -114,32 +108,31 @@
             color: white;
             padding: 4rem 2rem;
             text-align: center;
-            position: relative;
-        }
-
-        .header::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
         }
 
         .header h1 {
-            margin: 0;
+            margin: 0 0 0.75rem;
             font-size: 3rem;
             font-weight: 700;
-            margin-bottom: 1rem;
             letter-spacing: -0.02em;
         }
 
+        .header .tagline {
+            font-size: 1.25rem;
+            font-weight: 500;
+            opacity: 0.95;
+            margin-bottom: 1rem;
+            font-style: italic;
+        }
+
         .header .subtitle {
-            font-size: 1.125rem;
-            opacity: 0.9;
+            font-size: 1rem;
+            opacity: 0.85;
             font-weight: 400;
             margin-bottom: 2rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .header .badges {
@@ -160,85 +153,13 @@
             border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
-        .content {
-            padding: 3rem 2rem;
-        }
-
-        .toc {
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            border-radius: var(--border-radius);
-            padding: 2rem;
-            margin-bottom: 3rem;
-            position: relative;
-        }
-
-        .toc::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
-            border-radius: var(--border-radius) var(--border-radius) 0 0;
-        }
-
-        .toc h2 {
-            margin-top: 0;
-            color: var(--text-primary);
-            font-size: 1.375rem;
-            font-weight: 600;
-            margin-bottom: 1.5rem;
-            display: flex;
-            align-items: center;
-        }
-
-        .toc h2::before {
-            content: '📋';
-            margin-right: 0.75rem;
-            font-size: 1.25rem;
-        }
-
-        .toc ol {
-            margin: 0;
-            padding-left: 1.5rem;
-            columns: 2;
-            column-gap: 2rem;
-        }
-
-        .toc li {
-            margin-bottom: 0.5rem;
-            break-inside: avoid;
-            padding: 0.25rem 0;
-        }
-
-        .toc a {
-            color: var(--primary-color);
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.2s ease;
-            font-size: 0.9rem;
-        }
-
-        .toc a:hover {
-            color: var(--primary-dark);
-            text-decoration: underline;
-        }
-
-        h1 {
-            color: var(--text-primary);
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 1.5rem;
-            letter-spacing: -0.02em;
-        }
+        .content { padding: 3rem 2rem; }
 
         h2 {
             color: var(--text-primary);
             font-size: 2rem;
             font-weight: 700;
-            margin-top: 4rem;
+            margin-top: 3.5rem;
             margin-bottom: 1.5rem;
             padding-bottom: 0.5rem;
             border-bottom: 1px solid var(--border-color);
@@ -256,17 +177,15 @@
 
         h4 {
             color: var(--text-secondary);
-            font-size: 1.25rem;
+            font-size: 1.125rem;
             font-weight: 600;
-            margin-top: 2rem;
+            margin-top: 1.5rem;
             margin-bottom: 0.75rem;
-            scroll-margin-top: 5rem;
         }
 
         p {
             margin-bottom: 1rem;
             color: var(--text-secondary);
-            font-size: 1rem;
             line-height: 1.75;
         }
 
@@ -288,22 +207,8 @@
             padding: 1rem;
             overflow-x: auto;
             margin: 1.5rem 0;
-            position: relative;
             font-size: 0.875rem;
-            line-height: 1.45;
-        }
-
-        pre::before {
-            content: attr(data-lang);
-            position: absolute;
-            top: 0;
-            right: 1rem;
-            background: #21262d;
-            color: #7d8590;
-            padding: 0.25rem 0.5rem;
-            border-radius: 0 0 3px 3px;
-            font-size: 0.75rem;
-            font-weight: 500;
+            line-height: 1.5;
         }
 
         pre code {
@@ -315,155 +220,62 @@
             font-weight: 400;
         }
 
-        .alert {
-            padding: 1rem 1rem 1rem 3rem;
-            margin: 1.5rem 0;
+        .benefit-box {
+            background: #f0fdf4;
+            border: 1px solid #86efac;
+            border-left: 4px solid var(--success-color);
+            padding: 1.25rem 1.25rem 1.25rem 1.25rem;
             border-radius: var(--border-radius);
-            border-left: 4px solid;
-            position: relative;
-            font-size: 0.9rem;
+            margin: 1.5rem 0;
         }
 
-        .alert::before {
-            position: absolute;
-            left: 1rem;
-            top: 1rem;
-            font-size: 1rem;
+        .benefit-box ul { margin: 0; padding-left: 1.5rem; }
+
+        .warning-box {
+            background: #fef2f2;
+            border: 1px solid #fca5a5;
+            border-left: 4px solid var(--danger-color);
+            padding: 1.25rem;
+            border-radius: var(--border-radius);
+            margin: 1.5rem 0;
         }
 
-        .alert-info {
-            background: #dbeafe;
-            border-color: var(--info-color);
+        .warning-box ul { margin: 0; padding-left: 1.5rem; }
+
+        .info-box {
+            background: #eff6ff;
+            border: 1px solid #93c5fd;
+            border-left: 4px solid var(--primary-color);
+            padding: 1.25rem;
+            border-radius: var(--border-radius);
+            margin: 1.5rem 0;
             color: #1e40af;
         }
 
-        .alert-info::before {
-            content: 'ℹ️';
+        .highlight-box {
+            background: #fffbeb;
+            border: 1px solid #fcd34d;
+            border-left: 4px solid var(--warning-color);
+            padding: 1.25rem;
+            border-radius: var(--border-radius);
+            margin: 1.5rem 0;
         }
 
-        .alert-success {
-            background: #dcfce7;
-            border-color: var(--success-color);
-            color: #166534;
-        }
-
-        .alert-success::before {
-            content: '✅';
-        }
-
-        .alert-warning {
-            background: #fef3c7;
-            border-color: var(--warning-color);
-            color: #92400e;
-        }
-
-        .alert-warning::before {
-            content: '⚠️';
-        }
-
-        .alert-danger {
-            background: #fee2e2;
-            border-color: var(--danger-color);
-            color: #991b1b;
-        }
-
-        .alert-danger::before {
-            content: '🚨';
-        }
-
-        .installation {
+        .install-box {
             background: #f8fafc;
             border: 1px solid var(--border-color);
-            border-left: 4px solid #6366f1;
-            padding: 1rem 1rem 1rem 3rem;
+            border-left: 4px solid var(--accent-color);
+            padding: 1rem 1.25rem;
             border-radius: var(--border-radius);
             margin: 1.5rem 0;
-            position: relative;
             font-family: var(--font-mono);
             font-size: 0.875rem;
-        }
-
-        .installation::before {
-            content: '📦';
-            position: absolute;
-            left: 1rem;
-            top: 1rem;
-        }
-
-        .benefits {
-            background: #f0fdf4;
-            border: 1px solid #22c55e;
-            border-left: 4px solid #22c55e;
-            padding: 1rem 1rem 1rem 3rem;
-            border-radius: var(--border-radius);
-            margin: 1.5rem 0;
-            position: relative;
-        }
-
-        .benefits::before {
-            content: '🎯';
-            position: absolute;
-            left: 1rem;
-            top: 1rem;
-        }
-
-        .highlight {
-            background: #fffbeb;
-            border: 1px solid #f59e0b;
-            border-left: 4px solid #f59e0b;
-            padding: 1rem 1rem 1rem 3rem;
-            border-radius: var(--border-radius);
-            margin: 1.5rem 0;
-            position: relative;
-        }
-
-        .highlight::before {
-            content: '💡';
-            position: absolute;
-            left: 1rem;
-            top: 1rem;
-        }
-
-        .warning {
-            background: #fef2f2;
-            border: 1px solid #ef4444;
-            border-left: 4px solid #ef4444;
-            padding: 1rem 1rem 1rem 3rem;
-            border-radius: var(--border-radius);
-            margin: 1.5rem 0;
-            color: #b91c1c;
-            position: relative;
-        }
-
-        .warning::before {
-            content: '⚠️';
-            position: absolute;
-            left: 1rem;
-            top: 1rem;
-        }
-
-        .info {
-            background: #eff6ff;
-            border: 1px solid #3b82f6;
-            border-left: 4px solid #3b82f6;
-            padding: 1rem 1rem 1rem 3rem;
-            border-radius: var(--border-radius);
-            margin: 1.5rem 0;
-            color: #1e40af;
-            position: relative;
-        }
-
-        .info::before {
-            content: 'ℹ️';
-            position: absolute;
-            left: 1rem;
-            top: 1rem;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            margin: 2rem 0;
+            margin: 1.5rem 0;
             border: 1px solid var(--border-color);
             border-radius: var(--border-radius);
             overflow: hidden;
@@ -480,37 +292,9 @@
             background: var(--bg-secondary);
             font-weight: 600;
             color: var(--text-primary);
-            position: sticky;
-            top: 0;
         }
 
-        tbody tr:hover {
-            background: #f8fafc;
-        }
-
-        .checklist {
-            list-style: none;
-            padding-left: 0;
-        }
-
-        .checklist li {
-            padding: 0.5rem 0 0.5rem 2rem;
-            position: relative;
-            border-left: 2px solid transparent;
-            transition: all 0.2s ease;
-        }
-
-        .checklist li::before {
-            content: '✅';
-            position: absolute;
-            left: 0;
-            top: 0.5rem;
-        }
-
-        .checklist li:hover {
-            border-left-color: var(--success-color);
-            background: rgba(34, 197, 94, 0.05);
-        }
+        tbody tr:hover { background: #f8fafc; }
 
         .flow-diagram {
             background: var(--bg-secondary);
@@ -521,7 +305,6 @@
             margin: 2rem 0;
             font-family: var(--font-mono);
             font-size: 0.875rem;
-            line-height: 1.6;
         }
 
         .flow-diagram pre {
@@ -533,41 +316,69 @@
             font-weight: 500;
         }
 
-        ul, ol {
-            margin-bottom: 1.5rem;
-            padding-left: 2rem;
+        .use-case-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
         }
 
-        li {
-            margin-bottom: 0.5rem;
-            color: var(--text-secondary);
+        .use-case-card h4 {
+            color: var(--primary-color);
+            margin-top: 0;
+            font-size: 1.125rem;
         }
 
-        hr {
-            border: none;
-            height: 1px;
-            background: var(--border-color);
-            margin: 3rem 0;
+        .use-case-card .sources {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
         }
+
+        .source-tag {
+            background: #dbeafe;
+            color: #1e40af;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .source-tag.api { background: #dcfce7; color: #166534; }
+        .source-tag.ext { background: #fef3c7; color: #92400e; }
+
+        .vs-label {
+            display: inline-block;
+            background: var(--accent-color);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin: 1rem 0;
+        }
+
+        ul, ol { margin-bottom: 1.5rem; padding-left: 2rem; }
+        li { margin-bottom: 0.5rem; color: var(--text-secondary); }
+        hr { border: none; height: 1px; background: var(--border-color); margin: 3rem 0; }
 
         footer {
             background: var(--dark-color);
             color: #f0f6fc;
             text-align: center;
             padding: 3rem 2rem 2rem;
-            margin-top: 4rem;
+            margin-top: 3rem;
         }
 
-        footer p {
-            color: #8b949e;
-            margin: 0.5rem 0;
-        }
+        footer p { color: #8b949e; margin: 0.5rem 0; }
 
         footer .footer-links {
             display: flex;
             justify-content: center;
             gap: 2rem;
-            margin-top: 2rem;
+            margin-top: 1.5rem;
             flex-wrap: wrap;
         }
 
@@ -578,162 +389,21 @@
             transition: color 0.2s ease;
         }
 
-        footer .footer-links a:hover {
-            color: #f0f6fc;
-        }
-
-        .github-corner {
-            position: fixed;
-            top: 0;
-            right: 0;
-            z-index: 1000;
-        }
-
-        .github-corner svg {
-            fill: var(--dark-color);
-            color: #fff;
-            width: 80px;
-            height: 80px;
-        }
+        footer .footer-links a:hover { color: #f0f6fc; }
 
         @media (max-width: 768px) {
-            .header h1 {
-                font-size: 2rem;
-            }
-            
-            .content {
-                padding: 2rem 1rem;
-            }
-            
-            .nav-container {
-                padding: 0 1rem;
-            }
-            
-            .nav-links {
-                display: none;
-            }
-            
-            .toc ol {
-                columns: 1;
-            }
-            
-            h2 {
-                font-size: 1.5rem;
-            }
-            
-            .alert, .benefits, .highlight, .warning, .info, .installation {
-                padding: 1rem;
-                padding-left: 3rem;
-            }
+            .header h1 { font-size: 2rem; }
+            .header .tagline { font-size: 1rem; }
+            .content { padding: 2rem 1rem; }
+            .nav-links { display: none; }
+            h2 { font-size: 1.5rem; }
+            .use-case-card .sources { flex-direction: column; align-items: flex-start; }
         }
 
         @media (max-width: 480px) {
-            .header {
-                padding: 2rem 1rem;
-            }
-            
-            .header h1 {
-                font-size: 1.75rem;
-            }
-            
-            .header .badges {
-                flex-direction: column;
-                align-items: center;
-            }
-        }
-    </style>5rem 0;
-            position: relative;
-            padding-left: 2rem;
-        }
-
-        .checklist li::before {
-            content: '✅';
-            position: absolute;
-            left: 0;
-            top: 0.5rem;
-        }
-
-        .flow-diagram {
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 2rem;
-            text-align: center;
-            margin: 2rem 0;
-            box-shadow: var(--shadow);
-        }
-
-        .flow-diagram pre {
-            background: transparent;
-            border: none;
-            box-shadow: none;
-            color: var(--text-primary);
-            font-weight: 600;
-        }
-
-        ul, ol {
-            margin-bottom: 1.5rem;
-        }
-
-        li {
-            margin-bottom: 0.5rem;
-            color: var(--text-secondary);
-        }
-
-        hr {
-            border: none;
-            height: 1px;
-            background: linear-gradient(to right, transparent, var(--border-color), transparent);
-            margin: 3rem 0;
-        }
-
-        footer {
-            background: var(--dark-color);
-            color: white;
-            text-align: center;
-            padding: 2rem;
-            margin-top: 3rem;
-        }
-
-        footer p {
-            color: #d1d5db;
-            margin: 0.5rem 0;
-        }
-
-        .badge {
-            display: inline-block;
-            padding: 0.25rem 0.75rem;
-            background: var(--primary-color);
-            color: white;
-            border-radius: 9999px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin: 0 0.25rem;
-        }
-
-        @media (max-width: 768px) {
-            .header h1 {
-                font-size: 2.5rem;
-            }
-            
-            .content {
-                padding: 1rem;
-            }
-            
-            .container {
-                margin: 1rem;
-                border-radius: 8px;
-            }
-            
-            h2 {
-                font-size: 1.875rem;
-            }
-            
-            pre {
-                font-size: 0.75rem;
-            }
+            .header { padding: 2rem 1rem; }
+            .header h1 { font-size: 1.75rem; }
+            .header .badges { flex-direction: column; align-items: center; }
         }
     </style>
 </head>
@@ -741,458 +411,242 @@
     <div class="container">
         <nav class="navbar">
             <div class="nav-container">
-                <a href="#" class="logo">Schemio</a>
+                <a href="#" class="logo">DataFuse</a>
                 <ul class="nav-links">
-                    <li><a href="#introduction">Docs</a></li>
-                    <li><a href="#getting-started">Getting Started</a></li>
-                    <li><a href="#examples">Examples</a></li>
-                    <li><a href="https://github.com/CodeShayk/Schemio" target="_blank">GitHub</a></li>
+                    <li><a href="#use-cases">Use Cases</a></li>
+                    <li><a href="#why-datafuse">Why DataFuse?</a></li>
+                    <li><a href="#quick-start">Quick Start</a></li>
+                    <li><a href="#packages">Packages</a></li>
+                    <li><a href="https://github.com/CodeShayk/DataFuse" target="_blank">GitHub</a></li>
                 </ul>
             </div>
         </nav>
 
         <div class="header">
-            <h1>Schemio Framework</h1>
-            <div class="subtitle">A powerful .NET library for schema-driven data aggregation</div>
+            <h1>DataFuse Framework</h1>
+            <div class="tagline">Like GraphQL, but for your heterogeneous backend systems</div>
+            <div class="subtitle">A declarative .NET framework that aggregates data from SQL databases, REST APIs, and Entity Framework into unified, strongly-typed objects &mdash; replacing hundreds of lines of manual orchestration code.</div>
             <div class="badges">
                 <span class="badge">.NET 9.0</span>
-                <span class="badge">Schema-Driven</span>
+                <span class="badge">NuGet</span>
+                <span class="badge">MIT License</span>
                 <span class="badge">Multi-Source</span>
                 <span class="badge">Type-Safe</span>
             </div>
         </div>
 
-        <div class="github-corner">
-            <svg viewBox="0 0 250 250" style="position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true">
-                <path d="m0,0 0,250 250,250 0,-250 z"></path>
-                <path d="m128.3,109.3 c15.3,-8.5 23.8,-26.5 23.8,-46.4 0,-50.6 -41.2,-91.8 -91.8,-91.8 -50.6,0 -91.8,41.2 -91.8,91.8 0,19.9 8.5,37.9 23.8,46.4 l-6.9,6.9 c0,12.2 9.9,22.1 22.1,22.1 l105.7,0 c12.2,0 22.1,-9.9 22.1,-22.1 z" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
-                <path d="m115,115 c-1.1,0 -1.9,0.9 -1.9,1.9 l0,6.2 c0,1.1 0.9,1.9 1.9,1.9 l17,0 c1.1,0 1.9,-0.9 1.9,-1.9 l0,-6.2 c0,-1.1 -0.9,-1.9 -1.9,-1.9 z m-93.8,-4.2 c1.2,0 2.2,-1 2.2,-2.2 l0,-6.2 c0,-1.2 -1,-2.2 -2.2,-2.2 l-17,0 c-1.2,0 -2.2,1 -2.2,2.2 l0,6.2 c0,1.2 1,2.2 2.2,2.2 z" fill="currentColor" class="octo-body"></path>
-            </svg>
-        </div>
-        
         <div class="content">
-        <div class="toc">
-            <h2>Table of Contents</h2>
-            <ol>
-                <li><a href="#introduction">Introduction</a></li>
-                <li><a href="#the-need-for-data-aggregation">The Need for Data Aggregation</a></li>
-                <li><a href="#core-concepts">Core Concepts</a></li>
-                <li><a href="#package-overview">Package Overview</a></li>
-                <li><a href="#getting-started">Getting Started</a></li>
-                <li><a href="#architecture-deep-dive">Architecture Deep Dive</a></li>
-                <li><a href="#configuration-guide">Configuration Guide</a></li>
-                <li><a href="#query-implementation-guide">Query Implementation Guide</a></li>
-                <li><a href="#transformer-implementation-guide">Transformer Implementation Guide</a></li>
-                <li><a href="#advanced-features">Advanced Features</a></li>
-                <li><a href="#extension-points">Extension Points</a></li>
-                <li><a href="#best-practices">Best Practices</a></li>
-                <li><a href="#performance-considerations">Performance Considerations</a></li>
-                <li><a href="#troubleshooting">Troubleshooting</a></li>
-                <li><a href="#future-extensions">Future Extensions</a></li>
-            </ol>
-        </div>
 
-        <h2 id="introduction">Introduction</h2>
-        
-        <p><strong>Schemio</strong> is a powerful .NET library designed to aggregate data from heterogeneous data stores using a schema-driven approach. It enables developers to hydrate complex object graphs by fetching data from multiple sources (SQL databases, Web APIs, NoSQL stores) using XPath and JSONPath schema mappings.</p>
+            <!-- USE CASES -->
+            <h2 id="use-cases">Real-World Use Cases</h2>
 
-        <h3>Key Benefits</h3>
-        
-        <div class="benefits alert-success">
-            <ul class="checklist">
-                <li><strong>Unified Data Access</strong>: Aggregate data from SQL databases, REST APIs, and custom data sources</li>
-                <li><strong>Schema-Driven</strong>: Use XPath or JSONPath to define object graph mappings</li>
-                <li><strong>Performance Optimized</strong>: Execute queries in parallel with dependency management</li>
-                <li><strong>Extensible</strong>: Easily add support for new data sources</li>
-                <li><strong>Type-Safe</strong>: Strongly-typed entities and query results</li>
-                <li><strong>Flexible</strong>: Support for nested queries up to 5 levels deep</li>
-            </ul>
-        </div>
+            <p>DataFuse shines when a single response needs data from <strong>multiple backend systems</strong>. Here are scenarios where it eliminates boilerplate and adds automatic parallelism.</p>
 
-        <hr>
-
-        <h2 id="the-need-for-data-aggregation">The Need for Data Aggregation</h2>
-
-        <h3>Modern Application Challenges</h3>
-
-        <p>In today's microservices and distributed system architectures, applications often need to:</p>
-
-        <h4>1. Combine Data from Multiple Sources</h4>
-        <ul>
-            <li>User profiles from identity services</li>
-            <li>Order history from e-commerce APIs</li>
-            <li>Product catalogs from different databases</li>
-            <li>Analytics data from various platforms</li>
-        </ul>
-
-        <h4>2. Handle Different Data Formats</h4>
-        <ul>
-            <li>SQL database records</li>
-            <li>JSON responses from REST APIs</li>
-            <li>XML from legacy systems</li>
-            <li>NoSQL document stores</li>
-        </ul>
-
-        <h4>3. Manage Complex Dependencies</h4>
-        <ul>
-            <li>Parent-child relationships across systems</li>
-            <li>Conditional data loading based on context</li>
-            <li>Performance optimization through selective loading</li>
-        </ul>
-
-        <h3>Traditional Approaches and Their Limitations</h3>
-
-        <p><strong>Manual Data Assembly</strong></p>
-        
-        <pre><code class="language-csharp">// Traditional approach - brittle and hard to maintain
-var customer = GetCustomerFromDatabase(customerId);
-var orders = GetOrdersFromAPI(customerId);
-var communication = GetCommunicationFromService(customerId);
-
-// Manual assembly - error-prone
-customer.Orders = orders;
-customer.Communication = communication;</code></pre>
-
-        <div class="warning alert-danger">
-            <strong>Problems:</strong>
-            <ul>
-                <li>Tight coupling between data sources</li>
-                <li>Difficult to maintain and extend</li>
-                <li>No standard approach for error handling</li>
-                <li>Limited reusability</li>
-                <li>Performance issues with sequential calls</li>
-            </ul>
-        </div>
-
-        <h3>Schemio's Solution</h3>
-
-        <p>Schemio provides a declarative, schema-driven approach:</p>
-
-        <pre><code class="language-csharp">// Schemio approach - declarative and maintainable
-public class CustomerConfiguration : EntityConfiguration&lt;Customer&gt;
+            <div class="use-case-card">
+                <h4>1. E-Commerce Product Page</h4>
+                <div class="sources">
+                    <span class="source-tag">SQL Server &mdash; Inventory</span>
+                    <span class="source-tag api">REST API &mdash; Pricing</span>
+                    <span class="source-tag ext">External Service &mdash; Reviews</span>
+                </div>
+                <p>A product page combines inventory data from your SQL database, live pricing from a pricing microservice, and customer reviews from a third-party platform. DataFuse fetches the product from SQL first, then runs pricing and reviews API calls <strong>in parallel</strong>.</p>
+                <pre><code>public class ProductPageConfig : EntityConfiguration&lt;ProductPage&gt;
 {
-    public override IEnumerable&lt;Mapping&lt;Customer, IQueryResult&gt;&gt; GetSchema()
+    public override IEnumerable&lt;Mapping&lt;ProductPage, IQueryResult&gt;&gt; GetSchema()
     {
-        return CreateSchema.For&lt;Customer&gt;()
-            .Map&lt;CustomerQuery, CustomerTransform&gt;(For.Paths("customer"),
-                customer =&gt; customer.Dependents
-                    .Map&lt;CommunicationQuery, CommunicationTransform&gt;(For.Paths("customer/communication"))
-                    .Map&lt;OrdersQuery, OrdersTransform&gt;(For.Paths("customer/orders")))
+        return CreateSchema.For&lt;ProductPage&gt;()
+            .Map&lt;ProductQuery, ProductTransform&gt;(For.Paths("product"),
+                p =&gt; p.Dependents
+                    .Map&lt;PricingApiQuery, PricingTransform&gt;(For.Paths("product/pricing"))
+                    .Map&lt;ReviewsApiQuery, ReviewsTransform&gt;(For.Paths("product/reviews")))
             .End();
     }
 }</code></pre>
+            </div>
 
-        <div class="benefits alert-success">
-            <strong>Benefits:</strong>
-            <ul class="checklist">
-                <li>Declarative configuration</li>
-                <li>Automatic dependency management</li>
-                <li>Parallel query execution</li>
-                <li>Type-safe transformations</li>
-                <li>Extensible to new data sources</li>
-                <li>Built-in caching support</li>
-            </ul>
-        </div>
+            <div class="use-case-card">
+                <h4>2. Customer 360 Dashboard</h4>
+                <div class="sources">
+                    <span class="source-tag">CRM Database</span>
+                    <span class="source-tag api">Billing REST API</span>
+                    <span class="source-tag api">Support Ticket API</span>
+                    <span class="source-tag">Orders Database</span>
+                </div>
+                <p>Build a unified customer view from CRM data, billing history, support tickets, and order details &mdash; each from a different system. Use <strong>selective loading</strong> to fetch only what the current view needs.</p>
+                <pre><code>// Full customer 360
+var customer = dataProvider.GetData(new CustomerRequest { CustomerId = 123 });
 
-        <hr>
-
-        <h2 id="core-concepts">Core Concepts</h2>
-
-        <h3>Entities</h3>
-        
-        <p>Entities represent the final aggregated data structure implementing <code>IEntity</code>. They define the complete object graph that will be hydrated with data from multiple sources:</p>
-
-        <pre><code class="language-csharp">public class Customer : IEntity
+// Just profile + billing (skip tickets and orders)
+var billing = dataProvider.GetData(new CustomerRequest
 {
-    // Level 1: Root properties
-    public int CustomerId { get; set; }
-    public string CustomerCode { get; set; }
-    public string CustomerName { get; set; }
-    
-    // Level 2: Nested objects
-    public Communication Communication { get; set; }
-    public Address Address { get; set; }
-    public Order[] Orders { get; set; }
-}
+    CustomerId = 123,
+    SchemaPaths = new[] { "customer", "customer/billing" }
+});</code></pre>
+            </div>
 
-public class Order
-{
-    public int OrderId { get; set; }
-    public string OrderNumber { get; set; }
-    public DateTime OrderDate { get; set; }
-    
-    // Level 3: Deep nesting
-    public OrderItem[] Items { get; set; }
-    public Payment Payment { get; set; }
-}
+            <div class="use-case-card">
+                <h4>3. Multi-Service Reporting</h4>
+                <div class="sources">
+                    <span class="source-tag">Sales Database</span>
+                    <span class="source-tag api">Inventory API</span>
+                    <span class="source-tag api">Shipping API</span>
+                    <span class="source-tag">Revenue Database</span>
+                </div>
+                <p>Aggregate metrics from multiple microservices into a single report. Each data source is encapsulated in its own query, testable independently, and executed with automatic dependency management.</p>
+            </div>
 
-public class OrderItem
-{
-    public int ItemId { get; set; }
-    public string ProductName { get; set; }
-    public int Quantity { get; set; }
-    public decimal Price { get; set; }
-}</code></pre>
+            <hr>
 
-        <h3>Queries and Parent-Child Relationships</h3>
+            <!-- WHY DATAFUSE -->
+            <h2 id="why-datafuse">Why DataFuse?</h2>
 
-        <p>Queries form a hierarchical structure where child queries depend on data from their parent queries. This creates a powerful data flow where each query can use the results of its parent to customize its own execution.</p>
+            <h3>The Problem</h3>
+            <p>In modern architectures, a single page or API response often needs data from <strong>multiple backend systems</strong>. The standard approach is manual orchestration code:</p>
 
-        <h4>Parent Query (Root Level)</h4>
-        <p>Parent queries execute first and don't depend on other query results:</p>
+            <pre><code>// Without DataFuse: 50+ lines per data combination, repeated everywhere
+var customer = await GetCustomerFromDatabase(customerId);
+var orders = await GetOrdersFromAPI(customerId);           // Sequential!
+var billing = await GetBillingFromService(customerId);     // Sequential!
+var tickets = await GetTicketsFromAPI(customerId);          // Sequential!
 
-        <pre><code class="language-csharp">public class CustomerQuery : SQLQuery&lt;CustomerResult&gt;
-{
-    protected override Func&lt;IDbConnection, Task&lt;CustomerResult&gt;&gt; GetQuery(
-        IDataContext context, IQueryResult parentQueryResult)
-    {
-        // parentQueryResult is null for root queries
-        var request = (CustomerRequest)context.Request;
-        
-        return connection =&gt; connection.QueryFirstOrDefaultAsync&lt;CustomerResult&gt;(
-            "SELECT CustomerId as Id, CustomerName as Name, CustomerCode as Code FROM Customers WHERE CustomerId = @Id",
-            new { Id = request.CustomerId });
-    }
-}</code></pre>
+customer.Orders = orders;
+customer.Billing = billing;
+customer.Tickets = tickets;</code></pre>
 
-        <h4>Child Query (Dependent Level)</h4>
-        <p>Child queries receive their parent's result and use it to determine what data to fetch:</p>
+            <div class="warning-box">
+                <strong>Problems with manual orchestration:</strong>
+                <ul>
+                    <li>Boilerplate explosion &mdash; every new data combination means 50+ lines of fetch-assemble code</li>
+                    <li>No parallelism &mdash; developers write sequential calls unless they manually add <code>Task.WhenAll</code></li>
+                    <li>Tight coupling &mdash; changing a data source means rewriting orchestration</li>
+                    <li>No selective loading &mdash; you fetch everything even when consumers only need a subset</li>
+                    <li>Inconsistent patterns &mdash; every developer solves the same problem differently</li>
+                </ul>
+            </div>
 
-        <pre><code class="language-csharp">public class OrdersQuery : SQLQuery&lt;CollectionResult&lt;OrderResult&gt;&gt;
-{
-    protected override Func&lt;IDbConnection, Task&lt;CollectionResult&lt;OrderResult&gt;&gt;&gt; GetQuery(
-        IDataContext context, IQueryResult parentQueryResult)
-    {
-        // parentQueryResult contains the CustomerResult from the parent query
-        var customer = (CustomerResult)parentQueryResult;
-        
-        return async connection =&gt;
-        {
-            var orders = await connection.QueryAsync&lt;OrderResult&gt;(
-                "SELECT OrderId, OrderNumber, OrderDate FROM Orders WHERE CustomerId = @CustomerId",
-                new { CustomerId = customer.Id });
-                
-            return new CollectionResult&lt;OrderResult&gt;(orders);
-        };
-    }
-}</code></pre>
+            <span class="vs-label">VS</span>
 
-        <h4>Query Execution Flow</h4>
-        
-        <div class="flow-diagram">
-            <p>The parent-child relationship creates a specific execution order:</p>
-            <pre>1. Parent Query (CustomerQuery) executes first
-   ↓ (CustomerResult passed to children)
-   
-2. Child Queries execute in parallel:
-   - OrdersQuery (uses CustomerId from CustomerResult)
-   - CommunicationQuery (uses CustomerId from CustomerResult)
-   - AddressQuery (uses CustomerId from CustomerResult)
-   ↓ (OrderResult passed to grandchildren)
-   
-3. Grandchild Queries execute:
-   - OrderItemsQuery (uses OrderId from OrderResult)
-   - PaymentQuery (uses OrderId from OrderResult)</pre>
-        </div>
+            <pre><code>// With DataFuse: declare once, use everywhere
+var customer = dataProvider.GetData(new CustomerRequest { CustomerId = 123 });</code></pre>
 
-        <hr>
+            <div class="benefit-box">
+                <strong>DataFuse gives you:</strong>
+                <ul>
+                    <li><strong>Declarative schema</strong> &mdash; define data relationships once, reuse everywhere</li>
+                    <li><strong>Automatic parallelism</strong> &mdash; sibling queries run in parallel, no <code>Task.WhenAll</code> needed</li>
+                    <li><strong>Selective loading</strong> &mdash; fetch only the data paths the consumer needs</li>
+                    <li><strong>Dependency management</strong> &mdash; parent results flow to child queries automatically</li>
+                    <li><strong>Type safety</strong> &mdash; strongly-typed queries, results, and transformers</li>
+                    <li><strong>Extensible adapters</strong> &mdash; add any data source by implementing <code>IQueryEngine</code></li>
+                </ul>
+            </div>
 
-        <h2 id="package-overview">Package Overview</h2>
+            <h3>Comparison with Alternatives</h3>
 
-        <h3>Core Packages</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Capability</th>
+                        <th>Manual Code</th>
+                        <th>GraphQL</th>
+                        <th>MediatR</th>
+                        <th><strong>DataFuse</strong></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Multi-source aggregation</td>
+                        <td>Manual wiring</td>
+                        <td>Resolver-based</td>
+                        <td>Manual wiring</td>
+                        <td><strong>Declarative schema</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Parallel execution</td>
+                        <td>Manual Task.WhenAll</td>
+                        <td>Per-resolver</td>
+                        <td>Manual</td>
+                        <td><strong>Automatic</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Selective loading</td>
+                        <td>Manual if/else</td>
+                        <td>Built-in</td>
+                        <td>Manual</td>
+                        <td><strong>Schema path filtering</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Dependency management</td>
+                        <td>Manual ordering</td>
+                        <td>Implicit</td>
+                        <td>Manual</td>
+                        <td><strong>Parent-child hierarchy</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Type safety</td>
+                        <td>Varies</td>
+                        <td>Schema-based</td>
+                        <td>Yes</td>
+                        <td><strong>Strongly typed</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Learning curve</td>
+                        <td>None</td>
+                        <td>High (new language)</td>
+                        <td>Low</td>
+                        <td><strong>Low (C# only)</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Backend-only (no client changes)</td>
+                        <td>Yes</td>
+                        <td>No</td>
+                        <td>Yes</td>
+                        <td><strong>Yes</strong></td>
+                    </tr>
+                </tbody>
+            </table>
 
-        <h4>1. Schemio.Core</h4>
-        <p><strong>Purpose</strong>: Foundation package providing core interfaces and implementations.</p>
+            <div class="highlight-box">
+                <strong>When to use DataFuse:</strong> Your data lives across <em>different systems</em> (SQL + APIs + external services) and you want declarative orchestration with automatic parallelism. <strong>When NOT to use it:</strong> All your data is in a single database and simple SQL joins suffice.
+            </div>
 
-        <p><strong>Key Components:</strong></p>
-        <ul>
-            <li><code>IEntity</code>, <code>IQuery</code>, <code>ITransformer</code> interfaces</li>
-            <li><code>DataProvider&lt;T&gt;</code> - Main orchestration class</li>
-            <li><code>QueryBuilder&lt;T&gt;</code> - Builds query execution plan</li>
-            <li><code>EntityBuilder&lt;T&gt;</code> - Assembles final entity</li>
-            <li>Path matchers for XPath and JSONPath</li>
-        </ul>
+            <hr>
 
-        <div class="installation">
-            <strong>Installation:</strong><br>
-            <code>Install-Package Schemio.Core</code>
-        </div>
+            <!-- QUICK START -->
+            <h2 id="quick-start">Quick Start (5 Minutes)</h2>
 
-        <h4>2. Schemio.SQL</h4>
-        <p><strong>Purpose</strong>: SQL database support using Dapper for query execution.</p>
+            <h3>1. Install Packages</h3>
+            <div class="install-box">
+                <code>dotnet add package DataFuse.Integration</code><br>
+                <code>dotnet add package DataFuse.Adapters.SQL</code> &mdash; For SQL with Dapper<br>
+                <code>dotnet add package DataFuse.Adapters.WebAPI</code> &mdash; For REST APIs<br>
+                <code>dotnet add package DataFuse.Adapters.EntityFramework</code> &mdash; For EF Core
+            </div>
 
-        <p><strong>Key Components:</strong></p>
-        <ul>
-            <li><code>SQLQuery&lt;TResult&gt;</code> - Base class for SQL queries</li>
-            <li><code>QueryEngine</code> - Dapper-based query execution</li>
-            <li><code>SQLConfiguration</code> - Connection and query settings</li>
-        </ul>
-
-        <div class="installation">
-            <strong>Installation:</strong><br>
-            <code>Install-Package Schemio.SQL</code>
-        </div>
-
-        <p><strong>Supported Databases:</strong></p>
-        <ul>
-            <li>SQL Server</li>
-            <li>SQLite</li>
-            <li>MySQL</li>
-            <li>PostgreSQL</li>
-            <li>Oracle (with appropriate providers)</li>
-        </ul>
-
-        <h4>3. Schemio.EntityFramework</h4>
-        <p><strong>Purpose</strong>: Entity Framework Core integration for advanced ORM scenarios.</p>
-
-        <p><strong>Key Components:</strong></p>
-        <ul>
-            <li><code>SQLQuery&lt;TResult&gt;</code> - EF Core query implementation</li>
-            <li><code>QueryEngine&lt;T&gt;</code> - DbContext factory integration</li>
-            <li>Full LINQ query support</li>
-        </ul>
-
-        <div class="installation">
-            <strong>Installation:</strong><br>
-            <code>Install-Package Schemio.EntityFramework</code>
-        </div>
-
-        <h4>4. Schemio.API</h4>
-        <p><strong>Purpose</strong>: HTTP/REST API data source support using HttpClient.</p>
-
-        <p><strong>Key Components:</strong></p>
-        <ul>
-            <li><code>WebQuery&lt;TResult&gt;</code> - Base class for API queries</li>
-            <li><code>QueryEngine</code> - HttpClient-based execution</li>
-            <li><code>WebHeaderResult</code> - Support for response headers</li>
-            <li>Request/response header management</li>
-        </ul>
-
-        <div class="installation">
-            <strong>Installation:</strong><br>
-            <code>Install-Package Schemio.API</code>
-        </div>
-
-        <h3>Package Compatibility Matrix</h3>
-
-        <table>
-            <thead>
-                <tr>
-                    <th>Package</th>
-                    <th>.NET Framework</th>
-                    <th>.NET Standard</th>
-                    <th>.NET Core/.NET</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Schemio.Core</td>
-                    <td>4.6.2+</td>
-                    <td>2.0, 2.1</td>
-                    <td>9.0+</td>
-                </tr>
-                <tr>
-                    <td>Schemio.SQL</td>
-                    <td>4.6.2+</td>
-                    <td>2.1</td>
-                    <td>9.0+</td>
-                </tr>
-                <tr>
-                    <td>Schemio.EntityFramework</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>9.0+</td>
-                </tr>
-                <tr>
-                    <td>Schemio.API</td>
-                    <td>4.6.2+</td>
-                    <td>2.0, 2.1</td>
-                    <td>9.0+</td>
-                </tr>
-            </tbody>
-        </table>
-
-        <hr>
-
-        <h2 id="getting-started">Getting Started</h2>
-
-        <h3>1. Basic Setup</h3>
-
-        <p>First, install the required packages:</p>
-
-        <div class="installation">
-            <pre><code>Install-Package Schemio.Core
-Install-Package Schemio.SQL  # For SQL database support
-Install-Package Schemio.API  # For REST API support
-Install-Package Schemio.EntityFramework # For Entity Framework support</code></pre>
-        </div>
-
-        <h3>2. Define Your Entity</h3>
-
-        <pre><code class="language-csharp">public class Product : IEntity
+            <h3>2. Define Your Entity</h3>
+            <pre><code>public class Product : IEntity
 {
     public int ProductId { get; set; }
     public string Name { get; set; }
     public decimal Price { get; set; }
     public Category Category { get; set; }
     public Review[] Reviews { get; set; }
-}
-
-public class Category
-{
-    public int CategoryId { get; set; }
-    public string Name { get; set; }
-}
-
-public class Review
-{
-    public int ReviewId { get; set; }
-    public string Comment { get; set; }
-    public int Rating { get; set; }
 }</code></pre>
 
-        <h3>3. Create Query Results</h3>
-
-        <pre><code class="language-csharp">public class ProductResult : IQueryResult
-{
-    public int Id { get; set; }
-    public string Name { get; set; }
-    public decimal Price { get; set; }
-    public int CategoryId { get; set; }
-}
-
-public class CategoryResult : IQueryResult
-{
-    public int Id { get; set; }
-    public string Name { get; set; }
-}
-
-public class ReviewResult : IQueryResult
-{
-    public int Id { get; set; }
-    public string Comment { get; set; }
-    public int Rating { get; set; }
-    public int ProductId { get; set; }
-}</code></pre>
-
-        <h3>4. Implement Queries</h3>
-
-        <h4>SQL Query Example:</h4>
-        <pre><code class="language-csharp">public class ProductQuery : SQLQuery&lt;ProductResult&gt;
+            <h3>3. Create a Query</h3>
+            <pre><code>public class ProductQuery : SQLQuery&lt;ProductResult&gt;
 {
     protected override Func&lt;IDbConnection, Task&lt;ProductResult&gt;&gt; GetQuery(
         IDataContext context, IQueryResult parentQueryResult)
     {
         var request = (ProductRequest)context.Request;
-        
         return connection =&gt; connection.QueryFirstOrDefaultAsync&lt;ProductResult&gt;(
-            "SELECT ProductId as Id, Name, Price, CategoryId FROM Products WHERE ProductId = @Id",
+            "SELECT ProductId as Id, Name, Price FROM Products WHERE ProductId = @Id",
             new { Id = request.ProductId });
     }
-}</code></pre>
+}
 
-        <h4>API Query Example:</h4>
-        <pre><code class="language-csharp">public class ReviewsApiQuery : WebQuery&lt;CollectionResult&lt;ReviewResult&gt;&gt;
+public class ReviewsApiQuery : WebQuery&lt;CollectionResult&lt;ReviewResult&gt;&gt;
 {
     public ReviewsApiQuery() : base("https://api.reviews.com/") { }
 
@@ -1203,9 +657,8 @@ public class ReviewResult : IQueryResult
     }
 }</code></pre>
 
-        <h3>5. Create Transformers</h3>
-
-        <pre><code class="language-csharp">public class ProductTransformer : BaseTransformer&lt;ProductResult, Product&gt;
+            <h3>4. Create Transformers</h3>
+            <pre><code>public class ProductTransform : BaseTransformer&lt;ProductResult, Product&gt;
 {
     public override void Transform(ProductResult queryResult, Product entity)
     {
@@ -1215,1221 +668,275 @@ public class ReviewResult : IQueryResult
     }
 }
 
-public class CategoryTransformer : BaseTransformer&lt;CategoryResult, Product&gt;
+public class ReviewsTransform : BaseTransformer&lt;CollectionResult&lt;ReviewResult&gt;, Product&gt;
 {
-    public override void Transform(CategoryResult queryResult, Product entity)
+    public override void Transform(CollectionResult&lt;ReviewResult&gt; queryResult, Product entity)
     {
-        if (entity.Category == null)
-            entity.Category = new Category();
-            
-        entity.Category.CategoryId = queryResult.Id;
-        entity.Category.Name = queryResult.Name;
+        entity.Reviews = queryResult?.Select(r =&gt; new Review
+        {
+            ReviewId = r.Id, Comment = r.Comment, Rating = r.Rating
+        }).ToArray() ?? Array.Empty&lt;Review&gt;();
     }
 }</code></pre>
 
-        <h3>6. Configure Entity Schema</h3>
-
-        <pre><code class="language-csharp">public class ProductConfiguration : EntityConfiguration&lt;Product&gt;
+            <h3>5. Configure Schema</h3>
+            <pre><code>public class ProductConfiguration : EntityConfiguration&lt;Product&gt;
 {
     public override IEnumerable&lt;Mapping&lt;Product, IQueryResult&gt;&gt; GetSchema()
     {
         return CreateSchema.For&lt;Product&gt;()
-            .Map&lt;ProductQuery, ProductTransformer&gt;(For.Paths("product"),
+            .Map&lt;ProductQuery, ProductTransform&gt;(For.Paths("product"),
                 product =&gt; product.Dependents
-                    .Map&lt;CategoryQuery, CategoryTransformer&gt;(For.Paths("product/category"))
-                    .Map&lt;ReviewsApiQuery, ReviewsTransformer&gt;(For.Paths("product/reviews")))
+                    .Map&lt;CategoryQuery, CategoryTransform&gt;(For.Paths("product/category"))
+                    .Map&lt;ReviewsApiQuery, ReviewsTransform&gt;(For.Paths("product/reviews")))
             .End();
     }
 }</code></pre>
 
-        <h3>7. Register Dependencies</h3>
-
-        <pre><code class="language-csharp">// Using fluent interface
-services.UseSchemio()
-    .WithEngine(c =&gt; new QueryEngine(sqlConfiguration))  // SQL support
-    .WithEngine&lt;Schemio.API.QueryEngine&gt;()              // API support
+            <h3>6. Register &amp; Use</h3>
+            <pre><code>// Startup / DI registration
+services.UseDataFuse()
+    .WithEngine(c =&gt; new QueryEngine(sqlConfiguration))
+    .WithEngine&lt;DataFuse.Adapters.WebAPI.QueryEngine&gt;()
     .WithPathMatcher(c =&gt; new XPathMatcher())
     .WithEntityConfiguration&lt;Product&gt;(c =&gt; new ProductConfiguration());
 
-// Enable logging
-services.AddLogging();
-
-// For API queries
 services.AddHttpClient();
 
-// For SQL queries  
-DbProviderFactories.RegisterFactory("System.Data.SqlClient", SqlClientFactory.Instance);</code></pre>
-
-        <h3>8. Use the Data Provider</h3>
-
-        <pre><code class="language-csharp">public class ProductService
+// Usage
+public class ProductService
 {
-    private readonly IDataProvider&lt;Product&gt; dataProvider;
-    
+    private readonly IDataProvider&lt;Product&gt; _dataProvider;
+
     public ProductService(IDataProvider&lt;Product&gt; dataProvider)
-    {
-        this.dataProvider = dataProvider;
-    }
-    
+        =&gt; _dataProvider = dataProvider;
+
     public Product GetProduct(int productId)
-    {
-        var request = new ProductRequest { ProductId = productId };
-        return dataProvider.GetData(request);
-    }
-    
+        =&gt; _dataProvider.GetData(new ProductRequest { ProductId = productId });
+
     public Product GetProductWithReviews(int productId)
-    {
-        var request = new ProductRequest 
-        { 
+        =&gt; _dataProvider.GetData(new ProductRequest
+        {
             ProductId = productId,
             SchemaPaths = new[] { "product", "product/reviews" }
-        };
-        return dataProvider.GetData(request);
-    }
+        });
 }</code></pre>
 
-        <hr>
+            <hr>
 
-        <h2 id="architecture-deep-dive">Architecture Deep Dive</h2>
+            <!-- CORE CONCEPTS -->
+            <h2 id="core-concepts">Core Concepts</h2>
 
-        <h3>Execution Flow</h3>
-
-        <div class="flow-diagram">
-            <pre>Client Request
-    ↓
-DataProvider
-    ↓
-QueryBuilder
-    ↓
-Generate Query Plan
-    ↓
-QueryExecutor
-    ↓
-Execute Level 1 Queries
-    ↓
-Resolve Dependencies
-    ↓
-Execute Level 2 Queries
-    ↓
-Continue Until All Levels Complete
-    ↓
-EntityBuilder
-    ↓
-Apply Transformers
-    ↓
-Return Aggregated Entity</pre>
-        </div>
-
-        <h3>Component Interactions</h3>
-
-        <h4>1. DataProvider Orchestration</h4>
-        <p>The <code>DataProvider&lt;T&gt;</code> serves as the main orchestrator:</p>
-
-        <pre><code class="language-csharp">public TEntity GetData(IEntityRequest request)
+            <h3>Entities</h3>
+            <p>Entities implement <code>IEntity</code> and define the complete object graph. Each property can be hydrated from a different data source:</p>
+            <pre><code>public class Customer : IEntity
 {
-    var context = new DataContext(request);
-    
-    // Build execution plan
-    var queries = queryBuilder.Build(context);
-    
-    // Execute queries
-    var results = queryExecutor.Execute(context, queries);
-    
-    // Build final entity
-    var entity = entityBuilder.Build(context, results);
-    
-    return entity;
+    public int CustomerId { get; set; }
+    public string Name { get; set; }
+    public Communication Communication { get; set; }  // From REST API
+    public Address Address { get; set; }                // From SQL
+    public Order[] Orders { get; set; }                 // From EF Core
 }</code></pre>
 
-        <h4>2. Query Building Process</h4>
-        <p>The <code>QueryBuilder&lt;T&gt;</code> creates an optimized execution plan:</p>
+            <h3>Queries &amp; Parent-Child Dependencies</h3>
+            <p>Child queries receive their parent's result, enabling dependent fetching across data sources:</p>
+            <pre><code>// Root: fetches from SQL
+public class CustomerQuery : SQLQuery&lt;CustomerResult&gt; { /* uses request context */ }
 
-        <ol>
-            <li><strong>Filter by Schema Paths</strong>: Only include queries matching requested paths</li>
-            <li><strong>Resolve Dependencies</strong>: Build parent-child query relationships</li>
-            <li><strong>Optimize Execution</strong>: Determine optimal query execution order</li>
-        </ol>
-
-        <h4>3. Query Execution Strategy</h4>
-        <p>The <code>QueryExecutor</code> manages parallel execution with dependency resolution:</p>
-
-        <ol>
-            <li><strong>Level-by-Level Execution</strong>: Execute queries level by level to handle dependencies</li>
-            <li><strong>Parallel Processing</strong>: Run independent queries at the same level in parallel</li>
-            <li><strong>Result Propagation</strong>: Pass parent results to child queries</li>
-            <li><strong>Caching</strong>: Cache results marked with <code>[CacheResult]</code> attribute</li>
-        </ol>
-
-        <h4>4. Entity Building Process</h4>
-        <p>The <code>EntityBuilder&lt;T&gt;</code> assembles the final entity:</p>
-
-        <ol>
-            <li><strong>Transformer Resolution</strong>: Match query results to appropriate transformers</li>
-            <li><strong>Sequential Application</strong>: Apply transformers in dependency order</li>
-            <li><strong>Type Safety</strong>: Ensure type compatibility between results and transformers</li>
-        </ol>
-
-        <h3>Memory Management</h3>
-
-        <ul>
-            <li><strong>Query Results</strong>: Results are collected and passed to transformers</li>
-            <li><strong>Caching</strong>: Optional caching for expensive operations</li>
-            <li><strong>Disposal</strong>: Proper disposal of database connections and HTTP clients</li>
-        </ul>
-
-        <hr>
-
-        <h2 id="configuration-guide">Configuration Guide</h2>
-
-        <h3>Entity Configuration Patterns</h3>
-
-        <h4>1. Simple Linear Configuration</h4>
-        <pre><code class="language-csharp">return CreateSchema.For&lt;Customer&gt;()
-    .Map&lt;CustomerQuery, CustomerTransformer&gt;(For.Paths("customer"))
-    .Map&lt;AddressQuery, AddressTransformer&gt;(For.Paths("customer/address"))
-    .End();</code></pre>
-
-        <h4>2. Branching Configuration</h4>
-        <pre><code class="language-csharp">return CreateSchema.For&lt;Customer&gt;()
-    .Map&lt;CustomerQuery, CustomerTransformer&gt;(For.Paths("customer"),
-        customer =&gt; customer.Dependents
-            .Map&lt;ContactQuery, ContactTransformer&gt;(For.Paths("customer/contact"))
-            .Map&lt;PreferencesQuery, PreferencesTransformer&gt;(For.Paths("customer/preferences")))
-    .End();</code></pre>
-
-        <h4>3. Deep Nesting Configuration</h4>
-        <pre><code class="language-csharp">return CreateSchema.For&lt;Customer&gt;()
-    .Map&lt;CustomerQuery, CustomerTransformer&gt;(For.Paths("customer"),
-        customer =&gt; customer.Dependents
-            .Map&lt;OrdersQuery, OrdersTransformer&gt;(For.Paths("customer/orders"),
-                orders =&gt; orders.Dependents
-                    .Map&lt;OrderItemsQuery, OrderItemsTransformer&gt;(For.Paths("customer/orders/order/items"))))
-    .End();</code></pre>
-
-        <h3>Path Matching Strategies</h3>
-
-        <h4>XPath Patterns</h4>
-        <ul>
-            <li><code>customer</code> - Exact match</li>
-            <li><code>customer/orders</code> - Nested path</li>
-            <li><code>customer/orders/order/items</code> - Deep nesting</li>
-            <li><code>//orders</code> - Descendant matching (with ancestor support)</li>
-        </ul>
-
-        <h4>JSONPath Patterns</h4>
-        <ul>
-            <li><code>$.customer</code> - Root level</li>
-            <li><code>$.customer.orders</code> - Nested property</li>
-            <li><code>$.customer.orders[*].items</code> - Array elements</li>
-        </ul>
-
-        <h3>Schema Path Filtering</h3>
-
-        <p>Control which parts of the object graph to load:</p>
-
-        <pre><code class="language-csharp">// Load only customer basic info
-var request = new CustomerRequest
+// Child: uses parent CustomerResult to call API
+public class OrdersApiQuery : WebQuery&lt;CollectionResult&lt;OrderResult&gt;&gt;
 {
-    CustomerId = 123,
-    SchemaPaths = new[] { "customer" }
-};
-
-// Load customer with orders but no items
-var request = new CustomerRequest
-{
-    CustomerId = 123,
-    SchemaPaths = new[] { "customer", "customer/orders" }
-};
-
-// Load everything
-var request = new CustomerRequest
-{
-    CustomerId = 123
-    // SchemaPaths = null loads all configured paths
-};</code></pre>
-
-        <hr>
-
-        <h2 id="query-implementation-guide">Query Implementation Guide</h2>
-
-        <h3>SQL Queries with Dapper</h3>
-
-        <h4>Basic Query</h4>
-        <pre><code class="language-csharp">public class CustomerQuery : SQLQuery&lt;CustomerResult&gt;
-{
-    protected override Func&lt;IDbConnection, Task&lt;CustomerResult&gt;&gt; GetQuery(
-        IDataContext context, IQueryResult parentQueryResult)
-    {
-        var request = (CustomerRequest)context.Request;
-        
-        return connection =&gt; connection.QueryFirstOrDefaultAsync&lt;CustomerResult&gt;(
-            @"SELECT CustomerId as Id, 
-                     CustomerName as Name, 
-                     CustomerCode as Code 
-              FROM Customers 
-              WHERE CustomerId = @CustomerId",
-            new { CustomerId = request.CustomerId });
-    }
-}</code></pre>
-
-        <h4>Collection Query</h4>
-        <pre><code class="language-csharp">public class OrdersQuery : SQLQuery&lt;CollectionResult&lt;OrderResult&gt;&gt;
-{
-    protected override Func&lt;IDbConnection, Task&lt;CollectionResult&lt;OrderResult&gt;&gt;&gt; GetQuery(
-        IDataContext context, IQueryResult parentQueryResult)
+    protected override Func&lt;Uri&gt; GetQuery(IDataContext context, IQueryResult parentQueryResult)
     {
         var customer = (CustomerResult)parentQueryResult;
-        
-        return async connection =&gt;
-        {
-            var orders = await connection.QueryAsync&lt;OrderResult&gt;(
-                @"SELECT OrderId, OrderNumber, OrderDate, TotalAmount
-                  FROM Orders 
-                  WHERE CustomerId = @CustomerId",
-                new { CustomerId = customer.Id });
-                
-            return new CollectionResult&lt;OrderResult&gt;(orders);
-        };
+        return () =&gt; new Uri($"orders?customerId={customer.Id}", UriKind.Relative);
     }
 }</code></pre>
 
-        <h4>Complex Query with Parameters</h4>
-        <pre><code class="language-csharp">public class ProductSearchQuery : SQLQuery&lt;CollectionResult&lt;ProductResult&gt;&gt;
-{
-    protected override Func&lt;IDbConnection, Task&lt;CollectionResult&lt;ProductResult&gt;&gt;&gt; GetQuery(
-        IDataContext context, IQueryResult parentQueryResult)
-    {
-        var request = (ProductSearchRequest)context.Request;
-        
-        return async connection =&gt;
-        {
-            var sql = @"
-                SELECT p.ProductId as Id, p.Name, p.Price, p.CategoryId
-                FROM Products p
-                WHERE (@CategoryId IS NULL OR p.CategoryId = @CategoryId)
-                  AND (@MinPrice IS NULL OR p.Price &gt;= @MinPrice)
-                  AND (@MaxPrice IS NULL OR p.Price &lt;= @MaxPrice)
-                  AND (@SearchTerm IS NULL OR p.Name LIKE @SearchPattern)
-                ORDER BY p.Name";
-            
-            var products = await connection.QueryAsync&lt;ProductResult&gt;(sql, new
-            {
-                CategoryId = request.CategoryId,
-                MinPrice = request.MinPrice,
-                MaxPrice = request.MaxPrice,
-                SearchTerm = request.SearchTerm,
-                SearchPattern = $"%{request.SearchTerm}%"
-            });
-            
-            return new CollectionResult&lt;ProductResult&gt;(products);
-        };
-    }
-}</code></pre>
+            <h3>Execution Flow</h3>
+            <div class="flow-diagram">
+                <pre>1. Root Query executes first
+   |
+   v  Result passed to children
 
-        <h3>Entity Framework Queries</h3>
+2. Child Queries execute IN PARALLEL
+   - OrdersQuery, CommunicationQuery, AddressQuery
+   |
+   v  Results passed to grandchildren
 
-        <h4>Basic EF Query</h4>
-        <pre><code class="language-csharp">public class CustomerQuery : SQLQuery&lt;CustomerResult&gt;
-{
-    protected override Func&lt;DbContext, Task&lt;CustomerResult&gt;&gt; GetQuery(
-        IDataContext context, IQueryResult parentQueryResult)
-    {
-        var request = (CustomerRequest)context.Request;
-        
-        return async dbContext =&gt;
-        {
-            var result = await dbContext.Set&lt;CustomerEntity&gt;()
-                .Where(c =&gt; c.CustomerId == request.CustomerId)
-                .Select(c =&gt; new CustomerResult
-                {
-                    Id = c.CustomerId,
-                    Name = c.Name,
-                    Code = c.Code,
-                    Email = c.Email
-                })
-                .FirstOrDefaultAsync();
-                
-            return result;
-        };
-    }
-}</code></pre>
+3. Grandchild Queries execute
+   - OrderItemsQuery (uses OrderId from parent)</pre>
+            </div>
 
-        <h3>Web API Queries</h3>
-
-        <h4>Basic API Query</h4>
-        <pre><code class="language-csharp">public class UserProfileQuery : WebQuery&lt;UserProfileResult&gt;
-{
-    public UserProfileQuery() : base("https://api.userservice.com/") { }
-
-    protected override Func&lt;Uri&gt; GetQuery(IDataContext context, IQueryResult parentQueryResult)
-    {
-        var request = (UserRequest)context.Request;
-        return () =&gt; new Uri($"users/{request.UserId}", UriKind.Relative);
-    }
-}</code></pre>
-
-        <h4>API Query with Headers</h4>
-        <pre><code class="language-csharp">public class AuthenticatedApiQuery : WebQuery&lt;UserDataResult&gt;
-{
-    public AuthenticatedApiQuery() : base("https://api.secure.com/") { }
-
-    protected override Func&lt;Uri&gt; GetQuery(IDataContext context, IQueryResult parentQueryResult)
-    {
-        var request = (SecureRequest)context.Request;
-        return () =&gt; new Uri($"secure/data/{request.Id}", UriKind.Relative);
-    }
-
-    protected override IDictionary&lt;string, string&gt; GetRequestHeaders()
-    {
-        return new Dictionary&lt;string, string&gt;
-        {
-            { "Authorization", "Bearer " + GetAccessToken() },
-            { "X-Client-Version", "1.0" },
-            { "Accept", "application/json" }
-        };
-    }
-
-    protected override IEnumerable&lt;string&gt; GetResponseHeaders()
-    {
-        return new[] { "X-Rate-Limit-Remaining", "X-Request-Id" };
-    }
-
-    private string GetAccessToken()
-    {
-        // Implement token retrieval logic
-        return "your-access-token";
-    }
-}</code></pre>
-
-        <h3>Query Result Types</h3>
-
-        <h4>Simple Result</h4>
-        <pre><code class="language-csharp">public class CustomerResult : IQueryResult
-{
-    public int Id { get; set; }
-    public string Name { get; set; }
-    public string Code { get; set; }
-    public string Email { get; set; }
-}</code></pre>
-
-        <h4>Collection Result</h4>
-        <pre><code class="language-csharp">public class CollectionResult&lt;T&gt; : List&lt;T&gt;, IQueryResult
-{
-    public CollectionResult(IEnumerable&lt;T&gt; items) : base(items) { }
-    public CollectionResult() { }
-}</code></pre>
-
-        <h4>Cached Result</h4>
-        <pre><code class="language-csharp">[CacheResult]
-public class CategoryResult : IQueryResult
-{
-    public int Id { get; set; }
-    public string Name { get; set; }
-    public string Description { get; set; }
-}</code></pre>
-
-        <hr>
-
-        <h2 id="transformer-implementation-guide">Transformer Implementation Guide</h2>
-
-        <h3>Basic Transformers</h3>
-
-        <h4>Simple Property Mapping</h4>
-        <pre><code class="language-csharp">public class CustomerTransformer : BaseTransformer&lt;CustomerResult, Customer&gt;
-{
-    public override void Transform(CustomerResult queryResult, Customer entity)
-    {
-        entity.CustomerId = queryResult.Id;
-        entity.CustomerName = queryResult.Name;
-        entity.CustomerCode = queryResult.Code;
-        entity.Email = queryResult.Email;
-    }
-}</code></pre>
-
-        <h4>Collection Transformation</h4>
-        <pre><code class="language-csharp">public class OrdersTransformer : BaseTransformer&lt;CollectionResult&lt;OrderResult&gt;, Customer&gt;
+            <h3>Transformers</h3>
+            <p>Transformers map query results onto the entity. Each query-transformer pair handles one piece of the object graph:</p>
+            <pre><code>public class OrdersTransform : BaseTransformer&lt;CollectionResult&lt;OrderResult&gt;, Customer&gt;
 {
     public override void Transform(CollectionResult&lt;OrderResult&gt; queryResult, Customer entity)
     {
-        if (queryResult == null || !queryResult.Any())
+        entity.Orders = queryResult?.Select(o =&gt; new Order
         {
-            entity.Orders = new Order[0];
-            return;
-        }
-
-        entity.Orders = queryResult.Select(orderResult =&gt; new Order
-        {
-            OrderId = orderResult.OrderId,
-            OrderNumber = orderResult.OrderNumber,
-            OrderDate = orderResult.OrderDate,
-            TotalAmount = orderResult.TotalAmount
-        }).ToArray();
+            OrderId = o.OrderId,
+            OrderNumber = o.OrderNumber,
+            OrderDate = o.OrderDate
+        }).ToArray() ?? Array.Empty&lt;Order&gt;();
     }
 }</code></pre>
 
-        <h3>Advanced Transformers</h3>
+            <h3>Schema Configuration</h3>
+            <p>The schema declares the full hierarchy of queries, transformers, and path mappings:</p>
+            <pre><code>return CreateSchema.For&lt;Customer&gt;()
+    .Map&lt;CustomerQuery, CustomerTransform&gt;(For.Paths("customer"),
+        c =&gt; c.Dependents
+            .Map&lt;CommunicationQuery, CommTransform&gt;(For.Paths("customer/communication"))
+            .Map&lt;OrdersQuery, OrdersTransform&gt;(For.Paths("customer/orders"),
+                o =&gt; o.Dependents
+                    .Map&lt;ItemsQuery, ItemsTransform&gt;(For.Paths("customer/orders/order/items"))))
+    .End();</code></pre>
 
-        <h4>Context-Aware Transformation</h4>
-        <pre><code class="language-csharp">public class PersonalizedProductTransformer : BaseTransformer&lt;ProductResult, Product&gt;
+            <hr>
+
+            <!-- PACKAGES -->
+            <h2 id="packages">Packages</h2>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Package</th>
+                        <th>Purpose</th>
+                        <th>.NET</th>
+                        <th>.NET Standard</th>
+                        <th>.NET Framework</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>DataFuse.Integration</code></td>
+                        <td>Core orchestration, DI, helpers, path matchers</td>
+                        <td>9.0+</td>
+                        <td>2.0, 2.1</td>
+                        <td>4.6.2+</td>
+                    </tr>
+                    <tr>
+                        <td><code>DataFuse.Adapters.Abstraction</code></td>
+                        <td>Interfaces &amp; base classes (IEntity, IQuery, BaseTransformer)</td>
+                        <td>9.0+</td>
+                        <td>2.0, 2.1</td>
+                        <td>4.6.2+</td>
+                    </tr>
+                    <tr>
+                        <td><code>DataFuse.Adapters.SQL</code></td>
+                        <td>SQL via Dapper (SQL Server, SQLite, MySQL, PostgreSQL)</td>
+                        <td>9.0+</td>
+                        <td>2.1</td>
+                        <td>4.6.2+</td>
+                    </tr>
+                    <tr>
+                        <td><code>DataFuse.Adapters.EntityFramework</code></td>
+                        <td>Entity Framework Core with full LINQ support</td>
+                        <td>9.0+</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td><code>DataFuse.Adapters.WebAPI</code></td>
+                        <td>REST APIs via HttpClient with header management</td>
+                        <td>9.0+</td>
+                        <td>2.0, 2.1</td>
+                        <td>4.6.2+</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <hr>
+
+            <!-- ADVANCED -->
+            <h2 id="advanced">Advanced Features</h2>
+
+            <h3>Selective Loading</h3>
+            <p>Fetch only the parts of the object graph you need via <code>SchemaPaths</code>:</p>
+            <pre><code>// Load everything
+var full = dataProvider.GetData(new CustomerRequest { CustomerId = 123 });
+
+// Load only customer + orders
+var partial = dataProvider.GetData(new CustomerRequest
 {
-    public override void Transform(ProductResult queryResult, Product entity)
-    {
-        entity.ProductId = queryResult.Id;
-        entity.Name = queryResult.Name;
-        entity.Price = queryResult.Price;
+    CustomerId = 123,
+    SchemaPaths = new[] { "customer", "customer/orders" }
+});</code></pre>
 
-        // Access request context
-        var request = Context.Request as ProductRequest;
-        if (request?.UserId.HasValue == true)
-        {
-            // Apply user-specific logic
-            entity.IsInWishlist = CheckWishlist(request.UserId.Value, entity.ProductId);
-            entity.UserRating = GetUserRating(request.UserId.Value, entity.ProductId);
-        }
-    }
-
-    private bool CheckWishlist(int userId, int productId)
-    {
-        // Check if product is in user's wishlist
-        return false;
-    }
-
-    private int? GetUserRating(int userId, int productId)
-    {
-        // Get user's rating for this product
-        return null;
-    }
-}</code></pre>
-
-        <h3>Transformation Best Practices</h3>
-
-        <h4>1. Null Safety</h4>
-        <pre><code class="language-csharp">public override void Transform(CustomerResult queryResult, Customer entity)
-{
-    if (queryResult == null) return;
-
-    entity.CustomerId = queryResult.Id;
-    entity.CustomerName = queryResult.Name ?? string.Empty;
-    entity.Email = queryResult.Email?.ToLowerInvariant();
-    
-    // Initialize collections to prevent null reference exceptions
-    if (entity.Orders == null)
-        entity.Orders = new List&lt;Order&gt;();
-}</code></pre>
-
-        <h4>2. Data Validation</h4>
-        <pre><code class="language-csharp">public override void Transform(ProductResult queryResult, Product entity)
-{
-    entity.ProductId = queryResult.Id;
-    entity.Name = ValidateAndCleanName(queryResult.Name);
-    entity.Price = Math.Max(0, queryResult.Price); // Ensure non-negative price
-    entity.Description = SanitizeHtml(queryResult.Description);
-}
-
-private string ValidateAndCleanName(string name)
-{
-    if (string.IsNullOrWhiteSpace(name))
-        return "Unknown Product";
-        
-    return name.Trim().Length &gt; 100 
-        ? name.Trim().Substring(0, 100) + "..."
-        : name.Trim();
-}</code></pre>
-
-        <hr>
-
-        <h2 id="advanced-features">Advanced Features</h2>
-
-        <h3>Caching Support</h3>
-
-        <p>Schemio provides built-in caching for expensive query results:</p>
-
-        <h4>Enable Caching</h4>
-        <pre><code class="language-csharp">[CacheResult]
+            <h3>Caching</h3>
+            <p>Mark query results with <code>[CacheResult]</code> to make them available across queries and transformers:</p>
+            <pre><code>[CacheResult]
 public class CategoryResult : IQueryResult
 {
     public int Id { get; set; }
     public string Name { get; set; }
-}</code></pre>
-
-        <h4>Access Cached Results</h4>
-        <p>The cached results are available to queries and transformers via context object.</p>
-
-        <pre><code class="language-csharp">public class ProductTransformer : BaseTransformer&lt;ProductResult, Product&gt;
-{
-    public override void Transform(ProductResult queryResult, Product entity)
-    {
-        entity.ProductId = queryResult.Id;
-        entity.Name = queryResult.Name;
-
-        // Access cached category data
-        if (Context.Cache.TryGetValue("CategoryResult", out var cachedCategory))
-        {
-            var category = (CategoryResult)cachedCategory;
-            entity.CategoryName = category.Name;
-        }
-    }
-}</code></pre>
-
-        <h3>Selective Data Loading</h3>
-
-        <p>Control which parts of the object graph to load based on request parameters:</p>
-
-        <pre><code class="language-csharp">public class CustomerRequest : IEntityRequest
-{
-    public int CustomerId { get; set; }
-    public string[] SchemaPaths { get; set; }
-    public bool IncludeOrders { get; set; }
-    public bool IncludeOrderItems { get; set; }
 }
 
-// Usage
-var fullCustomer = dataProvider.GetData(new CustomerRequest
+// Access in a transformer
+if (Context.Cache.TryGetValue("CategoryResult", out var cached))
 {
-    CustomerId = 123,
-    SchemaPaths = new[] { "customer", "customer/orders", "customer/orders/order/items" }
-});
-
-var basicCustomer = dataProvider.GetData(new CustomerRequest
-{
-    CustomerId = 123,
-    SchemaPaths = new[] { "customer" }
-});</code></pre>
-
-        <h3>Error Handling and Resilience</h3>
-
-        <h4>Query-Level Error Handling</h4>
-        <pre><code class="language-csharp">public class ResilientApiQuery : WebQuery&lt;UserResult&gt;
-{
-    public ResilientApiQuery() : base("https://api.external.com/") { }
-
-    protected override Func&lt;Uri&gt; GetQuery(IDataContext context, IQueryResult parentQueryResult)
-    {
-        var request = (UserRequest)context.Request;
-        return () =&gt; new Uri($"users/{request.UserId}", UriKind.Relative);
-    }
-
-    // Override to handle HTTP errors
-    protected override async Task&lt;IQueryResult&gt; HandleError(Exception ex)
-    {
-        if (ex is HttpRequestException httpEx)
-        {
-            // Return default result or try alternative endpoint
-            return new UserResult { Id = -1, Name = "Unknown User" };
-        }
-        
-        throw ex; // Re-throw if not handled
-    }
+    entity.CategoryName = ((CategoryResult)cached).Name;
 }</code></pre>
 
-        <h3>Parallel Query Execution</h3>
-
-        <p>Schemio automatically executes independent queries in parallel:</p>
-
-        <pre><code class="language-csharp">// These queries will execute in parallel since they're at the same level
-return CreateSchema.For&lt;Customer&gt;()
-    .Map&lt;CustomerQuery, CustomerTransformer&gt;(For.Paths("customer"),
-        customer =&gt; customer.Dependents
-            .Map&lt;ContactQuery, ContactTransformer&gt;(For.Paths("customer/contact"))        // Parallel
-            .Map&lt;PreferencesQuery, PreferencesTransformer&gt;(For.Paths("customer/preferences")) // Parallel
-            .Map&lt;AddressQuery, AddressTransformer&gt;(For.Paths("customer/address")))       // Parallel
-    .End();</code></pre>
-
-        <hr>
-
-        <h2 id="extension-points">Extension Points</h2>
-
-        <h3>Creating Custom Query Engines</h3>
-
-        <p>Implement <code>IQueryEngine</code> to support new data sources:</p>
-
-        <pre><code class="language-csharp">public class RedisQueryEngine : IQueryEngine
+            <h3>Custom Data Source Adapters</h3>
+            <p>Add support for any data source by implementing <code>IQueryEngine</code>:</p>
+            <pre><code>public class MongoQueryEngine : IQueryEngine
 {
-    private readonly IConnectionMultiplexer redis;
-
-    public RedisQueryEngine(IConnectionMultiplexer redis)
-    {
-        this.redis = redis;
-    }
-
-    public bool CanExecute(IQuery query) 
-        =&gt; query != null && query is IRedisQuery;
-
-    public async Task&lt;IQueryResult&gt; Execute(IQuery query)
-    {
-        var serviceBusQuery = (IServiceBusQuery)query;
-        var sender = serviceBusClient.CreateSender(serviceBusQuery.QueueName);
-        
-        var message = new ServiceBusMessage(serviceBusQuery.GetMessageBody());
-        await sender.SendMessageAsync(message);
-        
-        // Wait for response (implement request-response pattern)
-        var response = await WaitForResponse(serviceBusQuery.CorrelationId);
-        return serviceBusQuery.ProcessResponse(response);
-    }
-}</code></pre>
-
-        <h4>2. AWS Lambda Integration</h4>
-        <pre><code class="language-csharp">public class LambdaQueryEngine : IQueryEngine
-{
-    private readonly IAmazonLambda lambdaClient;
-
-    public LambdaQueryEngine(IAmazonLambda lambdaClient)
-    {
-        this.lambdaClient = lambdaClient;
-    }
-
-    public bool CanExecute(IQuery query) =&gt; query is ILambdaQuery;
-
-    public async Task&lt;IQueryResult&gt; Execute(IQuery query)
-    {
-        var lambdaQuery = (ILambdaQuery)query;
-        
-        var request = new InvokeRequest
-        {
-            FunctionName = lambdaQuery.FunctionName,
-            Payload = JsonSerializer.Serialize(lambdaQuery.GetPayload())
-        };
-
-        var response = await lambdaClient.InvokeAsync(request);
-        var responsePayload = Encoding.UTF8.GetString(response.Payload.ToArray());
-        
-        return lambdaQuery.ProcessLambdaResponse(responsePayload);
-    }
-}</code></pre>
-
-        <h3>Performance Monitoring Extensions</h3>
-
-        <h4>1. Application Insights Integration</h4>
-        <pre><code class="language-csharp">public class ApplicationInsightsDataProvider&lt;T&gt; : IDataProvider&lt;T&gt; where T : IEntity
-{
-    private readonly IDataProvider&lt;T&gt; innerProvider;
-    private readonly TelemetryClient telemetryClient;
-
-    public T GetData(IEntityRequest request)
-    {
-        using var operation = telemetryClient.StartOperation&lt;DependencyTelemetry&gt;("Schemio.GetData");
-        operation.Telemetry.Type = "Schemio";
-        operation.Telemetry.Target = typeof(T).Name;
-
-        try
-        {
-            var result = innerProvider.GetData(request);
-            operation.Telemetry.Success = true;
-            
-            telemetryClient.TrackMetric($"Schemio.{typeof(T).Name}.Success", 1);
-            
-            return result;
-        }
-        catch (Exception ex)
-        {
-            operation.Telemetry.Success = false;
-            telemetryClient.TrackException(ex);
-            telemetryClient.TrackMetric($"Schemio.{typeof(T).Name}.Error", 1);
-            throw;
-        }
-    }
-}</code></pre>
-
-        <h4>2. Prometheus Metrics</h4>
-        <pre><code class="language-csharp">public class PrometheusDataProvider&lt;T&gt; : IDataProvider&lt;T&gt; where T : IEntity
-{
-    private readonly IDataProvider&lt;T&gt; innerProvider;
-    private static readonly Counter RequestCounter = Metrics
-        .CreateCounter("schemio_requests_total", "Total requests", new[] { "entity_type", "status" });
-    private static readonly Histogram RequestDuration = Metrics
-        .CreateHistogram("schemio_request_duration_seconds", "Request duration", new[] { "entity_type" });
-
-    public T GetData(IEntityRequest request)
-    {
-        var entityType = typeof(T).Name;
-        
-        using (RequestDuration.WithLabels(entityType).NewTimer())
-        {
-            try
-            {
-                var result = innerProvider.GetData(request);
-                RequestCounter.WithLabels(entityType, "success").Inc();
-                return result;
-            }
-            catch
-            {
-                RequestCounter.WithLabels(entityType, "error").Inc();
-                throw;
-            }
-        }
-    }
-}</code></pre>
-
-        <h3>Testing Extensions</h3>
-
-        <h4>1. Test Data Providers</h4>
-        <pre><code class="language-csharp">public class TestDataProvider&lt;T&gt; : IDataProvider&lt;T&gt; where T : IEntity, new()
-{
-    private readonly Dictionary&lt;string, T&gt; testData;
-
-    public TestDataProvider(Dictionary&lt;string, T&gt; testData)
-    {
-        this.testData = testData;
-    }
-
-    public T GetData(IEntityRequest request)
-    {
-        var key = GenerateKey(request);
-        return testData.TryGetValue(key, out var data) ? data : new T();
-    }
-
-    private string GenerateKey(IEntityRequest request)
-    {
-        // Generate key based on request properties
-        return request.GetType().Name + "_" + GetRequestId(request);
-    }
-}</code></pre>
-
-        <h4>Usage in Tests</h4>
-        <pre><code class="language-csharp">[Test]
-public void Should_Return_Customer_Data()
-{
-    var testData = new Dictionary&lt;string, Customer&gt;
-    {
-        ["CustomerRequest_123"] = new Customer
-        {
-            CustomerId = 123,
-            Name = "Test Customer",
-            Email = "test@example.com"
-        }
-    };
-
-    var testProvider = new TestDataProvider&lt;Customer&gt;(testData);
-    var request = new CustomerRequest { CustomerId = 123 };
-    
-    var result = testProvider.GetData(request);
-    
-    Assert.AreEqual(123, result.CustomerId);
-    Assert.AreEqual("Test Customer", result.Name);
-}</code></pre>
-
-        <h4>2. Mock Query Engines</h4>
-        <pre><code class="language-csharp">public class MockQueryEngine : IQueryEngine
-{
-    private readonly Dictionary&lt;Type, Func&lt;IQuery, IQueryResult&gt;&gt; mockImplementations;
-
-    public MockQueryEngine()
-    {
-        mockImplementations = new Dictionary&lt;Type, Func&lt;IQuery, IQueryResult&gt;&gt;();
-    }
-
-    public MockQueryEngine Setup&lt;TQuery&gt;(Func&lt;TQuery, IQueryResult&gt; implementation) 
-        where TQuery : IQuery
-    {
-        mockImplementations[typeof(TQuery)] = query =&gt; implementation((TQuery)query);
-        return this;
-    }
-
-    public bool CanExecute(IQuery query) 
-        =&gt; mockImplementations.ContainsKey(query.GetType());
-
-    public Task&lt;IQueryResult&gt; Execute(IQuery query)
-    {
-        var implementation = mockImplementations[query.GetType()];
-        var result = implementation(query);
-        return Task.FromResult(result);
-    }
-}</code></pre>
-
-        <hr>
-
-        <h2>Conclusion</h2>
-
-        <p>Schemio provides a powerful, extensible framework for aggregating data from heterogeneous data sources. Its schema-driven approach, combined with flexible query and transformation capabilities, makes it an ideal choice for modern applications that need to combine data from multiple systems.</p>
-
-        <h3>Key Takeaways</h3>
-
-        <div class="benefits">
-            <ol>
-                <li><strong>Declarative Configuration</strong>: Define your data aggregation logic through configuration rather than imperative code</li>
-                <li><strong>Extensible Architecture</strong>: Easy to add support for new data sources and transformation logic</li>
-                <li><strong>Performance Optimized</strong>: Built-in support for parallel execution and selective loading</li>
-                <li><strong>Type Safe</strong>: Strong typing throughout the pipeline reduces runtime errors</li>
-                <li><strong>Testable</strong>: Clear separation of concerns makes unit testing straightforward</li>
-            </ol>
-        </div>
-
-        <h3>When to Use Schemio</h3>
-
-        <ul>
-            <li><strong>Microservices Architectures</strong>: When you need to aggregate data from multiple services</li>
-            <li><strong>Legacy System Integration</strong>: When modernizing applications that need to pull from various data sources</li>
-            <li><strong>API Gateway Patterns</strong>: When building composite APIs that combine multiple backend services</li>
-            <li><strong>Data Migration Projects</strong>: When moving from monolithic to distributed architectures</li>
-            <li><strong>Reporting Systems</strong>: When building reports that require data from multiple sources</li>
-        </ul>
-
-        <h3>Getting Support</h3>
-
-        <div class="info alert-info">
-            <ul>
-                <li><strong>Documentation</strong>: Visit the <a href="https://github.com/CodeShayk/Schemio/wiki" target="_blank">GitHub Wiki</a> for detailed documentation</li>
-                <li><strong>Issues</strong>: Report bugs and feature requests on <a href="https://github.com/CodeShayk/Schemio/issues" target="_blank">GitHub Issues</a></li>
-                <li><strong>Discussions</strong>: Join the community discussions for questions and best practices</li>
-                <li><strong>Samples</strong>: Check out the example projects in the repository for real-world usage patterns</li>
-            </ul>
-        </div>
-
-        <div class="highlight">
-            <p><strong>The Schemio framework continues to evolve with the community's needs. Its extensible design ensures that as new data sources and patterns emerge, the framework can adapt while maintaining backward compatibility and ease of use.</strong></p>
-        </div>
-
-        <hr>
-
-        <footer>
-            <div>
-                <p><strong>Schemio Framework</strong></p>
-                <p>A powerful .NET library for schema-driven data aggregation</p>
-            </div>
-            <div class="footer-links">
-                <a href="https://github.com/CodeShayk/Schemio">GitHub</a>
-                <a href="https://github.com/CodeShayk/Schemio/wiki">Documentation</a>
-                <a href="https://github.com/CodeShayk/Schemio/issues">Issues</a>
-                <a href="https://github.com/CodeShayk/Schemio/releases">Releases</a>
-            </div>
-            <p style="margin-top: 2rem; font-size: 0.875rem;">
-                Generated on <span id="currentDate"></span> | 
-                <a href="https://github.com/CodeShayk" style="color: #7d8590;">© CodeShayk</a>
-            </p>
-            <script>
-                document.getElementById('currentDate').textContent = new Date().toLocaleDateString();
-            </script>
-        </footer>
-
-        </div>
-    </div>
-</body>
-</html>IQueryResult&gt; Execute(IQuery query)
-    {
-        var redisQuery = (IRedisQuery)query;
-        var database = redis.GetDatabase();
-        return await redisQuery.Execute(database);
-    }
-}</code></pre>
-
-        <h4>Custom Query Interface</h4>
-        <pre><code class="language-csharp">public interface IRedisQuery : IQuery
-{
-    Task&lt;IQueryResult&gt; Execute(IDatabase database);
-}</code></pre>
-
-        <h4>Custom Query Implementation</h4>
-        <pre><code class="language-csharp">public abstract class RedisQuery&lt;TResult&gt; : BaseQuery&lt;TResult&gt;, IRedisQuery
-    where TResult : IQueryResult
-{
-    private Func&lt;IDatabase, Task&lt;TResult&gt;&gt; queryDelegate;
-
-    public override bool IsContextResolved() =&gt; queryDelegate != null;
-
-    public override void ResolveQuery(IDataContext context, IQueryResult parentQueryResult)
-    {
-        queryDelegate = GetQuery(context, parentQueryResult);
-    }
-
-    public async Task&lt;IQueryResult&gt; Execute(IDatabase database)
-    {
-        return await queryDelegate(database);
-    }
-
-    protected abstract Func&lt;IDatabase, Task&lt;TResult&gt;&gt; GetQuery(
-        IDataContext context, IQueryResult parentQueryResult);
-}</code></pre>
-
-        <hr>
-
-        <h2 id="best-practices">Best Practices</h2>
-
-        <h3>1. Entity Design</h3>
-
-        <h4>Keep Entities Simple</h4>
-        <pre><code class="language-csharp">// Good: Simple, focused entity
-public class Customer : IEntity
-{
-    public int CustomerId { get; set; }
-    public string Name { get; set; }
-    public string Email { get; set; }
-    public Address Address { get; set; }
-    public Order[] Orders { get; set; }
-}</code></pre>
-
-        <div class="warning alert-danger">
-            <strong>Avoid:</strong> Overly complex entities with too many responsibilities
-        </div>
-
-        <h4>Use Composition</h4>
-        <pre><code class="language-csharp">public class Customer : IEntity
-{
-    public int CustomerId { get; set; }
-    public string Name { get; set; }
-    public ContactInfo Contact { get; set; }
-    public ShippingInfo Shipping { get; set; }
-    public BillingInfo Billing { get; set; }
-}
-
-public class ContactInfo
-{
-    public string Email { get; set; }
-    public string Phone { get; set; }
-}</code></pre>
-
-        <h3>2. Query Design</h3>
-
-        <h4>Single Responsibility</h4>
-        <div class="benefits alert-success">
-            <strong>Good:</strong> Focused queries
-            <ul>
-                <li>CustomerBasicInfoQuery - Fetches only basic customer information</li>
-                <li>CustomerOrdersQuery - Fetches only customer orders</li>
-            </ul>
-        </div>
-
-        <div class="warning alert-danger">
-            <strong>Avoid:</strong> Monolithic queries that try to fetch everything in one query
-        </div>
-
-        <h4>Parameterization</h4>
-        <pre><code class="language-csharp">public class ProductSearchQuery : SQLQuery&lt;CollectionResult&lt;ProductResult&gt;&gt;
-{
-    protected override Func&lt;IDbConnection, Task&lt;CollectionResult&lt;ProductResult&gt;&gt;&gt; GetQuery(
-        IDataContext context, IQueryResult parentQueryResult)
-    {
-        var request = (ProductSearchRequest)context.Request;
-        
-        return async connection =&gt;
-        {
-            // Good: Parameterized query
-            var sql = @"
-                SELECT * FROM Products 
-                WHERE (@CategoryId IS NULL OR CategoryId = @CategoryId)
-                  AND (@SearchTerm IS NULL OR Name LIKE @SearchPattern)";
-                  
-            var results = await connection.QueryAsync&lt;ProductResult&gt;(sql, new
-            {
-                CategoryId = request.CategoryId,
-                SearchTerm = request.SearchTerm,
-                SearchPattern = $"%{request.SearchTerm}%"
-            });
-            
-            return new CollectionResult&lt;ProductResult&gt;(results);
-        };
-    }
-}</code></pre>
-
-        <hr>
-
-        <h2 id="performance-considerations">Performance Considerations</h2>
-
-        <h3>Query Optimization</h3>
-
-        <h4>1. Selective Loading</h4>
-        <p>Only load what you need:</p>
-
-        <pre><code class="language-csharp">// Load only basic customer info
-var basicRequest = new CustomerRequest
-{
-    CustomerId = 123,
-    SchemaPaths = new[] { "customer" }
-};
-
-// Load customer with orders when needed
-var detailedRequest = new CustomerRequest
-{
-    CustomerId = 123,
-    SchemaPaths = new[] { "customer", "customer/orders" }
-};</code></pre>
-
-        <h4>2. Parallel Execution</h4>
-        <p>Structure your configuration to maximize parallelism:</p>
-
-        <pre><code class="language-csharp">// Good: Independent queries can run in parallel
-return CreateSchema.For&lt;Customer&gt;()
-    .Map&lt;CustomerQuery, CustomerTransformer&gt;(For.Paths("customer"),
-        customer =&gt; customer.Dependents
-            .Map&lt;AddressQuery, AddressTransformer&gt;(For.Paths("customer/address"))
-            .Map&lt;ContactQuery, ContactTransformer&gt;(For.Paths("customer/contact"))
-            .Map&lt;PreferencesQuery, PreferencesTransformer&gt;(For.Paths("customer/preferences")))
-    .End();</code></pre>
-
-        <h4>3. Caching Strategy</h4>
-        <p>Use caching for static or slow-changing data:</p>
-
-        <pre><code class="language-csharp">[CacheResult]
-public class CountryResult : IQueryResult
-{
-    public int Id { get; set; }
-    public string Name { get; set; }
-    public string Code { get; set; }
-}</code></pre>
-
-        <hr>
-
-        <h2 id="troubleshooting">Troubleshooting</h2>
-
-        <h3>Common Issues and Solutions</h3>
-
-        <h4>1. Query Not Executing</h4>
-        <div class="warning alert-danger">
-            <strong>Problem:</strong> Query doesn't execute or returns null results.
-        </div>
-
-        <div class="info alert-info">
-            <strong>Causes & Solutions:</strong>
-            <ul>
-                <li><strong>Path mismatch:</strong> Ensure schema paths in configuration match request paths</li>
-                <li><strong>Query engine mismatch:</strong> Verify the correct query engine is registered</li>
-                <li><strong>Context resolution failure:</strong> Check <code>IsContextResolved()</code> returns true</li>
-            </ul>
-        </div>
-
-        <h4>2. Transformation Errors</h4>
-        <div class="warning alert-danger">
-            <strong>Problem:</strong> Data not mapped correctly to entity.
-        </div>
-
-        <div class="info alert-info">
-            <strong>Solutions:</strong>
-            <ul>
-                <li><strong>Null checks:</strong> Always check for null query results</li>
-                <li><strong>Type compatibility:</strong> Ensure transformer types match query result types</li>
-                <li><strong>Property mapping:</strong> Verify property names and types align</li>
-            </ul>
-        </div>
-
-        <h4>3. Performance Problems</h4>
-        <div class="warning alert-danger">
-            <strong>Problem:</strong> Slow query execution or high memory usage.
-        </div>
-
-        <div class="info alert-info">
-            <strong>Solutions:</strong>
-            <ul>
-                <li><strong>Enable parallel execution:</strong> Structure queries to run independently</li>
-                <li><strong>Use selective loading:</strong> Only load required data paths</li>
-                <li><strong>Implement caching:</strong> Cache expensive or static data</li>
-                <li><strong>Optimize SQL queries:</strong> Use proper indexing and query optimization</li>
-            </ul>
-        </div>
-
-        <h3>Debugging Tips</h3>
-
-        <h4>1. Enable Detailed Logging</h4>
-        <pre><code class="language-csharp">services.AddLogging(builder =&gt;
-{
-    builder.AddConsole();
-    builder.SetMinimumLevel(LogLevel.Debug);
-});</code></pre>
-
-        <h4>2. Validate Configuration</h4>
-        <pre><code class="language-csharp">public static class ConfigurationValidator
-{
-    public static void ValidateConfiguration&lt;T&gt;(IEntityConfiguration&lt;T&gt; configuration) 
-        where T : IEntity
-    {
-        var mappings = configuration.Mappings.ToList();
-        
-        // Check for duplicate paths
-        var duplicates = mappings
-            .SelectMany(m =&gt; m.SchemaPaths.Paths)
-            .GroupBy(p =&gt; p)
-            .Where(g =&gt; g.Count() &gt; 1)
-            .Select(g =&gt; g.Key);
-            
-        if (duplicates.Any())
-        {
-            throw new InvalidOperationException(
-                $"Duplicate schema paths found: {string.Join(", ", duplicates)}");
-        }
-    }
-}</code></pre>
-
-        <hr>
-
-        <h2 id="future-extensions">Future Extensions</h2>
-
-        <h3>Potential Framework Enhancements</h3>
-
-        <h4>1. GraphQL Integration</h4>
-        <pre><code class="language-csharp">public class GraphQLQueryEngine : IQueryEngine
-{
-    private readonly IGraphQLClient graphQLClient;
-
-    public GraphQLQueryEngine(IGraphQLClient graphQLClient)
-    {
-        this.graphQLClient = graphQLClient;
-    }
-
-    public bool CanExecute(IQuery query) =&gt; query is IGraphQLQuery;
-
-    public async Task&lt;IQueryResult&gt; Execute(IQuery query)
-    {
-        var graphQLQuery = (IGraphQLQuery)query;
-        var request = graphQLQuery.BuildRequest();
-        var response = await graphQLClient.SendQueryAsync&lt;dynamic&gt;(request);
-        return graphQLQuery.ProcessResponse(response);
-    }
-}</code></pre>
-
-        <h4>2. Message Queue Integration</h4>
-        <pre><code class="language-csharp">public class MessageQueueQueryEngine : IQueryEngine
-{
-    private readonly IMessageBus messageBus;
-    
-    public MessageQueueQueryEngine(IMessageBus messageBus)
-    {
-        this.messageBus = messageBus;
-    }
-
-    public bool CanExecute(IQuery query) =&gt; query is IMessageQuery;
-
-    public async Task&lt;IQueryResult&gt; Execute(IQuery query)
-    {
-        var messageQuery = (IMessageQuery)query;
-        var message = messageQuery.BuildMessage();
-        
-        // Send message and wait for response
-        var response = await messageBus.SendAsync&lt;MessageQueryResponse&gt;(message);
-        return messageQuery.ProcessResponse(response);
-    }
-}</code></pre>
-
-        <h4>3. NoSQL Database Support</h4>
-        <pre><code class="language-csharp">// MongoDB Integration
-public class MongoQueryEngine : IQueryEngine
-{
-    private readonly IMongoDatabase database;
-
-    public MongoQueryEngine(IMongoDatabase database)
-    {
-        this.database = database;
-    }
+    private readonly IMongoDatabase _db;
+    public MongoQueryEngine(IMongoDatabase db) =&gt; _db = db;
 
     public bool CanExecute(IQuery query) =&gt; query is IMongoQuery;
 
     public async Task&lt;IQueryResult&gt; Execute(IQuery query)
     {
         var mongoQuery = (IMongoQuery)query;
-        return await mongoQuery.Execute(database);
+        return await mongoQuery.Execute(_db);
     }
+}
+
+// Register alongside other engines
+services.UseDataFuse()
+    .WithEngine(c =&gt; new MongoQueryEngine(mongoDb))
+    .WithEngine(c =&gt; new QueryEngine(sqlConfig));</code></pre>
+
+            <h3>Conditional Query Execution</h3>
+            <p>Skip queries based on parent data by returning <code>null</code>:</p>
+            <pre><code>protected override Func&lt;Uri&gt; GetQuery(IDataContext context, IQueryResult parentQueryResult)
+{
+    var customer = (CustomerResult)parentQueryResult;
+    if (customer.CustomerType != "Premium")
+        return null; // Query is skipped
+
+    return () =&gt; new Uri($"premium/{customer.Id}", UriKind.Relative);
 }</code></pre>
 
-        <h3>Cloud-Native Extensions</h3>
+            <h3>Path Matching</h3>
+            <p>DataFuse supports XPath and JSONPath patterns for schema paths:</p>
+            <table>
+                <thead>
+                    <tr><th>XPath</th><th>JSONPath</th><th>Matches</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td><code>customer</code></td><td><code>$.customer</code></td><td>Root entity</td></tr>
+                    <tr><td><code>customer/orders</code></td><td><code>$.customer.orders</code></td><td>Nested property</td></tr>
+                    <tr><td><code>customer/orders/order/items</code></td><td><code>$.customer.orders[*].items</code></td><td>Deep nesting</td></tr>
+                </tbody>
+            </table>
 
-        <h4>1. Azure Service Bus Integration</h4>
-        <pre><code class="language-csharp">public class ServiceBusQueryEngine : IQueryEngine
-{
-    private readonly ServiceBusClient serviceBusClient;
+        </div>
 
-    public ServiceBusQueryEngine(ServiceBusClient serviceBusClient)
-    {
-        this.serviceBusClient = serviceBusClient;
-    }
-
-    public bool CanExecute(IQuery query) =&gt; query is IServiceBusQuery;
-
-    public async Task&lt;
+        <footer>
+            <h3 style="color: #f0f6fc; margin-top: 0;">DataFuse Framework</h3>
+            <p>Declarative multi-source data aggregation for .NET</p>
+            <div class="footer-links">
+                <a href="https://github.com/CodeShayk/DataFuse">GitHub</a>
+                <a href="https://github.com/CodeShayk/DataFuse/issues">Issues</a>
+                <a href="https://github.com/CodeShayk/DataFuse/wiki">Wiki</a>
+                <a href="https://www.nuget.org/packages?q=DataFuse">NuGet</a>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>
