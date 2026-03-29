@@ -14,7 +14,7 @@
 
 ## The Problem
 
-Building a product page? You need inventory from SQL Server, pricing from a REST API, and reviews from an external service. That's 50+ lines of manual fetch-assemble code — sequential, tightly coupled, and repeated across your codebase.
+Building a product page? You need inventory from SQL Server, pricing from a REST API, and reviews from MongoDB. That's 50+ lines of manual fetch-assemble code — sequential, tightly coupled, and repeated across your codebase.
 
 ```csharp
 // Without DataFuse: manual orchestration everywhere
@@ -45,6 +45,7 @@ DataFuse automatically executes the SQL query first, then runs pricing and revie
 dotnet add package DataFuse.Integration
 dotnet add package DataFuse.Adapters.SQL       # SQL with Dapper
 dotnet add package DataFuse.Adapters.WebAPI     # REST APIs
+dotnet add package DataFuse.Adapters.MongoDB    # MongoDB
 ```
 
 ### 2. Define Your Entity
@@ -55,6 +56,7 @@ public class Product : IEntity
     public int ProductId { get; set; }
     public string Name { get; set; }
     public decimal Price { get; set; }
+    public decimal Discount { get; set; }
     public Review[] Reviews { get; set; }
 }
 ```
@@ -75,15 +77,31 @@ public class ProductQuery : SQLQuery<ProductResult>
     }
 }
 
-// API query — fetches reviews from external service, receives parent result
-public class ReviewsApiQuery : WebQuery<CollectionResult<ReviewResult>>
+// MongoDB query — fetches reviews from MongoDB, receives parent result
+public class ReviewsMongoQuery : MongoQuery<CollectionResult<ReviewResult>>
 {
-    public ReviewsApiQuery() : base("https://api.reviews.com/") { }
+    protected override Func<IMongoDatabase, Task<CollectionResult<ReviewResult>>> GetQuery(
+        IDataContext context, IQueryResult? parentQueryResult)
+    {
+        var product = (ProductResult)parentQueryResult;
+        return async database =>
+        {
+            var collection = database.GetCollection<ReviewResult>("reviews");
+            var reviews = await collection.Find(r => r.ProductId == product.Id).ToListAsync();
+            return new CollectionResult<ReviewResult>(reviews);
+        };
+    }
+}
+
+// API query — fetches live pricing from external service, receives parent result
+public class PricingApiQuery : WebQuery<PricingResult>
+{
+    public PricingApiQuery() : base("https://api.pricing.com/") { }
 
     protected override Func<Uri> GetQuery(IDataContext context, IQueryResult parentQueryResult)
     {
         var product = (ProductResult)parentQueryResult;
-        return () => new Uri($"products/{product.Id}/reviews", UriKind.Relative);
+        return () => new Uri($"products/{product.Id}/pricing", UriKind.Relative);
     }
 }
 ```
@@ -98,6 +116,15 @@ public class ProductTransform : BaseTransformer<ProductResult, Product>
         entity.ProductId = queryResult.Id;
         entity.Name = queryResult.Name;
         entity.Price = queryResult.Price;
+    }
+}
+
+public class PricingTransform : BaseTransformer<PricingResult, Product>
+{
+    public override void Transform(PricingResult queryResult, Product entity)
+    {
+        entity.Price = queryResult.CurrentPrice;
+        entity.Discount = queryResult.DiscountPercent;
     }
 }
 
@@ -123,7 +150,8 @@ public class ProductConfiguration : EntityConfiguration<Product>
         return CreateSchema.For<Product>()
             .Map<ProductQuery, ProductTransform>(For.Paths("product"),
                 product => product.Dependents
-                    .Map<ReviewsApiQuery, ReviewsTransform>(For.Paths("product/reviews")))
+                    .Map<PricingApiQuery, PricingTransform>(For.Paths("product/pricing"))
+                    .Map<ReviewsMongoQuery, ReviewsTransform>(For.Paths("product/reviews")))
             .End();
     }
 }
@@ -134,8 +162,9 @@ public class ProductConfiguration : EntityConfiguration<Product>
 ```csharp
 // DI registration
 services.UseDataFuse()
-    .WithEngine(c => new QueryEngine(sqlConfiguration))
-    .WithEngine<DataFuse.Adapters.WebAPI.QueryEngine>()
+    .WithEngine(c => new QueryEngine(sqlConfiguration))                      // SQL
+    .WithEngine<DataFuse.Adapters.WebAPI.QueryEngine>()                      // REST API
+    .WithEngine(c => new DataFuse.Adapters.MongoDB.QueryEngine(mongoDatabase)) // MongoDB
     .WithPathMatcher(c => new XPathMatcher())
     .WithEntityConfiguration<Product>(c => new ProductConfiguration());
 
@@ -173,7 +202,7 @@ public class ProductService
 | **Automatic Parallelism** | Sibling queries run in parallel — no `Task.WhenAll` boilerplate |
 | **Selective Loading** | Fetch only the data paths the consumer needs via `SchemaPaths` |
 | **Parent-Child Dependencies** | Parent results flow to child queries automatically |
-| **Cross-Source Mixing** | Combine SQL + REST API + EF Core queries in one entity |
+| **Cross-Source Mixing** | Combine SQL + REST API + MongoDB + EF Core queries in one entity |
 | **Type Safety** | Strongly-typed queries, results, and transformers |
 | **Built-in Caching** | `[CacheResult]` attribute for expensive query results |
 | **Custom Adapters** | Add any data source by implementing `IQueryEngine` |
@@ -188,6 +217,7 @@ public class ProductService
 | **DataFuse.Adapters.SQL** | SQL via Dapper | `dotnet add package DataFuse.Adapters.SQL` |
 | **DataFuse.Adapters.EntityFramework** | EF Core | `dotnet add package DataFuse.Adapters.EntityFramework` |
 | **DataFuse.Adapters.WebAPI** | REST APIs via HttpClient | `dotnet add package DataFuse.Adapters.WebAPI` |
+| **DataFuse.Adapters.MongoDB** | MongoDB via official driver | `dotnet add package DataFuse.Adapters.MongoDB` |
 | **DataFuse.Adapters.Abstraction** | Interfaces & base classes | Included as dependency |
 
 ### Compatibility
@@ -198,6 +228,7 @@ public class ProductService
 | DataFuse.Adapters.SQL | 9.0+ | 2.1 | 4.6.2+ |
 | DataFuse.Adapters.EntityFramework | 9.0+ | - | - |
 | DataFuse.Adapters.WebAPI | 9.0+ | 2.0, 2.1 | 4.6.2+ |
+| DataFuse.Adapters.MongoDB | 9.0+ | - | - |
 
 ---
 
@@ -206,7 +237,7 @@ public class ProductService
 See the [Complete Developer Guide](https://codeshayk.github.io/DataFuse.Net/) for detailed documentation including:
 - Real-world use cases (e-commerce, customer 360, reporting)
 - Core concepts deep dive
-- Query implementation guides (SQL, EF Core, Web API)
+- Query implementation guides (SQL, EF Core, Web API, MongoDB)
 - Transformer patterns
 - Advanced features (caching, selective loading, custom engines)
 - Architecture overview

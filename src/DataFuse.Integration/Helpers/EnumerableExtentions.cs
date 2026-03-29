@@ -6,8 +6,8 @@ public static class EnumerableExtentions
 {
     public static void Each<T>(this IEnumerable<T> enumerable, Action<T> action)
     {
-        ArgumentNullException.ThrowIfNull(enumerable, nameof(enumerable));
-        ArgumentNullException.ThrowIfNull(action, nameof(action));
+        Guard.ThrowIfNull(enumerable, nameof(enumerable));
+        Guard.ThrowIfNull(action, nameof(action));
 
         foreach (var item in enumerable)
             action(item);

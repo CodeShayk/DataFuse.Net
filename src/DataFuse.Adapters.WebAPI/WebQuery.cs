@@ -53,7 +53,7 @@ public abstract class WebQuery<TQueryResult> : BaseQuery<TQueryResult>, IWebQuer
 
     async Task<IQueryResult> IWebQuery.Run(IHttpClientFactory httpClientFactory, ILogger? logger)
     {
-        ArgumentNullException.ThrowIfNull(httpClientFactory);
+        Guard.ThrowIfNull(httpClientFactory);
 
         logger?.LogInformation("Run api: {QueryName}", GetType().Name);
 

@@ -3,6 +3,7 @@ using DataFuse.Integration;
 using Microsoft.Extensions.Logging;
 using NUnit.Framework;
 using DataFuse.Adapters.WebAPI.Tests.EntitySetup;
+using DataFuse.Adapters.WebAPI.Tests.EntitySetup.WebApis;
 using DataFuse.Adapters.Abstraction;
 using DataFuse.Integration.PathMatchers;
 using WireMock.RequestBuilders;
@@ -56,7 +57,8 @@ namespace DataFuse.Adapters.WebAPI.Tests.E2E.Tests
         [OneTimeSetUp]
         public void OneTimeSetup()
         {
-            server = WireMockServer.Start(5000);
+            server = WireMockServer.Start();
+            Endpoints.BaseAddress = server.Url + "/";
 
             var services = new ServiceCollection();
 

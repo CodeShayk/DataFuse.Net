@@ -425,7 +425,7 @@
         <div class="header">
             <h1>DataFuse Framework</h1>
             <div class="tagline">Like GraphQL, but for your heterogeneous backend systems</div>
-            <div class="subtitle">A declarative .NET framework that aggregates data from SQL databases, REST APIs, and Entity Framework into unified, strongly-typed objects &mdash; replacing hundreds of lines of manual orchestration code.</div>
+            <div class="subtitle">A declarative .NET framework that aggregates data from SQL databases, REST APIs, MongoDB, and Entity Framework into unified, strongly-typed objects &mdash; replacing hundreds of lines of manual orchestration code.</div>
             <div class="badges">
                 <span class="badge">.NET 9.0</span>
                 <span class="badge">NuGet</span>
@@ -447,9 +447,9 @@
                 <div class="sources">
                     <span class="source-tag">SQL Server &mdash; Inventory</span>
                     <span class="source-tag api">REST API &mdash; Pricing</span>
-                    <span class="source-tag ext">External Service &mdash; Reviews</span>
+                    <span class="source-tag ext">MongoDB &mdash; Reviews</span>
                 </div>
-                <p>A product page combines inventory data from your SQL database, live pricing from a pricing microservice, and customer reviews from a third-party platform. DataFuse fetches the product from SQL first, then runs pricing and reviews API calls <strong>in parallel</strong>.</p>
+                <p>A product page combines inventory data from your SQL database, live pricing from a pricing microservice, and customer reviews from MongoDB. DataFuse fetches the product from SQL first, then runs pricing and MongoDB queries <strong>in parallel</strong>.</p>
                 <pre><code>public class ProductPageConfig : EntityConfiguration&lt;ProductPage&gt;
 {
     public override IEnumerable&lt;Mapping&lt;ProductPage, IQueryResult&gt;&gt; GetSchema()
@@ -458,7 +458,7 @@
             .Map&lt;ProductQuery, ProductTransform&gt;(For.Paths("product"),
                 p =&gt; p.Dependents
                     .Map&lt;PricingApiQuery, PricingTransform&gt;(For.Paths("product/pricing"))
-                    .Map&lt;ReviewsApiQuery, ReviewsTransform&gt;(For.Paths("product/reviews")))
+                    .Map&lt;ReviewsMongoQuery, ReviewsTransform&gt;(For.Paths("product/reviews")))
             .End();
     }
 }</code></pre>
@@ -620,6 +620,7 @@ var customer = dataProvider.GetData(new CustomerRequest { CustomerId = 123 });</
                 <code>dotnet add package DataFuse.Integration</code><br>
                 <code>dotnet add package DataFuse.Adapters.SQL</code> &mdash; For SQL with Dapper<br>
                 <code>dotnet add package DataFuse.Adapters.WebAPI</code> &mdash; For REST APIs<br>
+                <code>dotnet add package DataFuse.Adapters.MongoDB</code> &mdash; For MongoDB<br>
                 <code>dotnet add package DataFuse.Adapters.EntityFramework</code> &mdash; For EF Core
             </div>
 
@@ -646,14 +647,18 @@ var customer = dataProvider.GetData(new CustomerRequest { CustomerId = 123 });</
     }
 }
 
-public class ReviewsApiQuery : WebQuery&lt;CollectionResult&lt;ReviewResult&gt;&gt;
+public class ReviewsMongoQuery : MongoQuery&lt;CollectionResult&lt;ReviewResult&gt;&gt;
 {
-    public ReviewsApiQuery() : base("https://api.reviews.com/") { }
-
-    protected override Func&lt;Uri&gt; GetQuery(IDataContext context, IQueryResult parentQueryResult)
+    protected override Func&lt;IMongoDatabase, Task&lt;CollectionResult&lt;ReviewResult&gt;&gt;&gt; GetQuery(
+        IDataContext context, IQueryResult? parentQueryResult)
     {
         var product = (ProductResult)parentQueryResult;
-        return () =&gt; new Uri($"products/{product.Id}/reviews", UriKind.Relative);
+        return async database =&gt;
+        {
+            var collection = database.GetCollection&lt;ReviewResult&gt;("reviews");
+            var reviews = await collection.Find(r =&gt; r.ProductId == product.Id).ToListAsync();
+            return new CollectionResult&lt;ReviewResult&gt;(reviews);
+        };
     }
 }</code></pre>
 
@@ -688,7 +693,7 @@ public class ReviewsTransform : BaseTransformer&lt;CollectionResult&lt;ReviewRes
             .Map&lt;ProductQuery, ProductTransform&gt;(For.Paths("product"),
                 product =&gt; product.Dependents
                     .Map&lt;CategoryQuery, CategoryTransform&gt;(For.Paths("product/category"))
-                    .Map&lt;ReviewsApiQuery, ReviewsTransform&gt;(For.Paths("product/reviews")))
+                    .Map&lt;ReviewsMongoQuery, ReviewsTransform&gt;(For.Paths("product/reviews")))
             .End();
     }
 }</code></pre>
@@ -696,8 +701,9 @@ public class ReviewsTransform : BaseTransformer&lt;CollectionResult&lt;ReviewRes
             <h3>6. Register &amp; Use</h3>
             <pre><code>// Startup / DI registration
 services.UseDataFuse()
-    .WithEngine(c =&gt; new QueryEngine(sqlConfiguration))
-    .WithEngine&lt;DataFuse.Adapters.WebAPI.QueryEngine&gt;()
+    .WithEngine(c =&gt; new QueryEngine(sqlConfiguration))                          // SQL
+    .WithEngine&lt;DataFuse.Adapters.WebAPI.QueryEngine&gt;()                          // REST API
+    .WithEngine(c =&gt; new DataFuse.Adapters.MongoDB.QueryEngine(mongoDatabase))     // MongoDB
     .WithPathMatcher(c =&gt; new XPathMatcher())
     .WithEntityConfiguration&lt;Product&gt;(c =&gt; new ProductConfiguration());
 
@@ -839,6 +845,13 @@ public class OrdersApiQuery : WebQuery&lt;CollectionResult&lt;OrderResult&gt;&gt
                         <td>-</td>
                     </tr>
                     <tr>
+                        <td><code>DataFuse.Adapters.MongoDB</code></td>
+                        <td>MongoDB via official driver</td>
+                        <td>9.0+</td>
+                        <td>-</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
                         <td><code>DataFuse.Adapters.WebAPI</code></td>
                         <td>REST APIs via HttpClient with header management</td>
                         <td>9.0+</td>
@@ -882,24 +895,25 @@ if (Context.Cache.TryGetValue("CategoryResult", out var cached))
 
             <h3>Custom Data Source Adapters</h3>
             <p>Add support for any data source by implementing <code>IQueryEngine</code>:</p>
-            <pre><code>public class MongoQueryEngine : IQueryEngine
+            <pre><code>public class RedisQueryEngine : IQueryEngine
 {
-    private readonly IMongoDatabase _db;
-    public MongoQueryEngine(IMongoDatabase db) =&gt; _db = db;
+    private readonly IConnectionMultiplexer _redis;
+    public RedisQueryEngine(IConnectionMultiplexer redis) =&gt; _redis = redis;
 
-    public bool CanExecute(IQuery query) =&gt; query is IMongoQuery;
+    public bool CanExecute(IQuery query) =&gt; query is IRedisQuery;
 
     public async Task&lt;IQueryResult&gt; Execute(IQuery query)
     {
-        var mongoQuery = (IMongoQuery)query;
-        return await mongoQuery.Execute(_db);
+        var redisQuery = (IRedisQuery)query;
+        return await redisQuery.Run(_redis.GetDatabase());
     }
 }
 
-// Register alongside other engines
+// Register alongside built-in adapters
 services.UseDataFuse()
-    .WithEngine(c =&gt; new MongoQueryEngine(mongoDb))
-    .WithEngine(c =&gt; new QueryEngine(sqlConfig));</code></pre>
+    .WithEngine(c =&gt; new RedisQueryEngine(redisConnection))
+    .WithEngine(c =&gt; new QueryEngine(sqlConfig))
+    .WithEngine(c =&gt; new DataFuse.Adapters.MongoDB.QueryEngine(mongoDb));</code></pre>
 
             <h3>Conditional Query Execution</h3>
             <p>Skip queries based on parent data by returning <code>null</code>:</p>

@@ -9,10 +9,10 @@ public class QueryEngine : IQueryEngine
 
     public QueryEngine(SQLConfiguration sqlConfiguration)
     {
-        ArgumentNullException.ThrowIfNull(sqlConfiguration?.ConnectionSettings?.ProviderName,
+        Guard.ThrowIfNull(sqlConfiguration?.ConnectionSettings?.ProviderName,
             "SQL Configuration is required with connection settings. Provider name is missing.");
 
-        ArgumentNullException.ThrowIfNull(sqlConfiguration?.ConnectionSettings?.ConnectionString,
+        Guard.ThrowIfNull(sqlConfiguration?.ConnectionSettings?.ConnectionString,
             "SQL Configuration is required with connection settings. Connection string is missing.");
 
         this.sqlConfiguration = sqlConfiguration!;

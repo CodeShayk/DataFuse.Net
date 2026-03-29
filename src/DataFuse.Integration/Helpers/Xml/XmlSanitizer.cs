@@ -6,8 +6,13 @@ namespace DataFuse.Integration.Helpers.Xml;
 
 public static partial class XmlSanitizer
 {
+#if NET7_0_OR_GREATER
     [GeneratedRegex("&(#)?([a-zA-Z0-9]*);")]
     private static partial Regex XmlEntityRegex();
+#else
+    private static readonly Regex _xmlEntityRegex = new("&(#)?([a-zA-Z0-9]*);");
+    private static Regex XmlEntityRegex() => _xmlEntityRegex;
+#endif
 
     public static string Sanitize(string xml)
     {

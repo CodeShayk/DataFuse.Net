@@ -10,7 +10,7 @@ public class QueryEngine : IQueryEngine
 
     public QueryEngine(IHttpClientFactory httpClientFactory, ILogger<QueryEngine>? logger = null)
     {
-        ArgumentNullException.ThrowIfNull(httpClientFactory);
+        Guard.ThrowIfNull(httpClientFactory);
         this.httpClientFactory = httpClientFactory;
         this.logger = logger;
     }

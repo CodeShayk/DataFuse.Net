@@ -8,8 +8,8 @@ public static class XmlHelper
 {
     public static string SerializeToXml<T>(T value, XmlSerializerNamespaces namespaces, XmlWriterSettings settings)
     {
-        ArgumentNullException.ThrowIfNull(value, nameof(value));
-        ArgumentNullException.ThrowIfNull(settings, nameof(settings));
+        Guard.ThrowIfNull(value, nameof(value));
+        Guard.ThrowIfNull(settings, nameof(settings));
 
         var xmlStr = new StringBuilder();
         var x = new XmlSerializer(typeof(T));

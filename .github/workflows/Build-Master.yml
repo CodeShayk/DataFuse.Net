@@ -14,13 +14,18 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: 9.0.x
+        dotnet-version: |
+          8.0.x
+          9.0.x
+          10.0.x
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
       run: dotnet build --no-restore
-    - name: Test
-      run: dotnet test --no-build --verbosity normal
+    - name: Unit Tests
+      run: dotnet test --no-build --verbosity normal --filter "FullyQualifiedName~Unit"
+    - name: Integration Tests
+      run: dotnet test --no-build --verbosity normal --filter "FullyQualifiedName~Integration"
   
   run-Lint:
       runs-on: ubuntu-latest

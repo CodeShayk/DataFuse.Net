@@ -7,7 +7,7 @@ namespace DataFuse.Adapters.WebAPI.Tests.EntitySetup.WebApis
         public const string Orders = "v2/clients/{0}/orders";
         public const string OrderItems = "v2/clients/{0}/orders/items?$filter=orderId in {1}";
 
-        public const string BaseAddress = "http://localhost:5000/";
+        public static string BaseAddress = "http://localhost:5000/";
 
         public static class Ids
         {

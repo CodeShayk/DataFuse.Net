@@ -9,8 +9,8 @@ public static class ServicesExtensions
 {
     public static void UseDataFuse(this IServiceCollection services, Action<IDataFuseOptions> configuration)
     {
-        ArgumentNullException.ThrowIfNull(configuration, nameof(configuration));
-        ArgumentNullException.ThrowIfNull(services, nameof(services));
+        Guard.ThrowIfNull(configuration, nameof(configuration));
+        Guard.ThrowIfNull(services, nameof(services));
 
         var options = new DataFuseOptionsBuilder(services);
         configuration.Invoke(options);

@@ -15,7 +15,7 @@ public class QueryComparer : IEqualityComparer<IQuery>
 
     public int GetHashCode(IQuery obj)
     {
-        ArgumentNullException.ThrowIfNull(obj, nameof(obj));
+        Guard.ThrowIfNull(obj, nameof(obj));
         return obj.GetType().GetHashCode();
     }
 }

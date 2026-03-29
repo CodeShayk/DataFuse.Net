@@ -52,7 +52,10 @@ jobs:
       - name: Step-04 Install .NET
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: 9.0.x
+          dotnet-version: |
+            8.0.x
+            9.0.x
+            10.0.x
 
       - name: Step-05 Restore dependencies
         run: dotnet restore
@@ -68,8 +71,12 @@ jobs:
         run: dotnet build  --configuration Release --no-restore -p:PackageVersion=${{ steps.gitversion.outputs.MajorMinorPatch }}
         working-directory: '${{ env.working-directory }}'
 
-      - name: Step-07 Test Solution
-        run: dotnet test --configuration Release --no-build --no-restore  --verbosity normal
+      - name: Step-07 Unit Tests
+        run: dotnet test --configuration Release --no-build --no-restore --verbosity normal --filter "FullyQualifiedName~Unit"
+        working-directory: '${{ env.working-directory }}'
+
+      - name: Step-07b Integration Tests
+        run: dotnet test --configuration Release --no-build --no-restore --verbosity normal --filter "FullyQualifiedName~Integration"
         working-directory: '${{ env.working-directory }}'
 
       - name: Step-08 Upload Build Artifacts
