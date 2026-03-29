@@ -30,7 +30,7 @@ jobs:
       beta_Version: ${{ steps.gitversion.outputs.nuGetVersion }}
       branchName: ${{ steps.gitversion.outputs.branchName }}
     env:
-      working-directory: /home/runner/work/DataFuse/DataFuse
+      working-directory: /home/runner/work/DataFuse.Net/DataFuse.Net
 
     steps:
       - name: Step-01 Install GitVersion
@@ -87,7 +87,7 @@ jobs:
     env:
       github-token: '${{ secrets.GH_Packages }}'
       nuget-token: '${{ secrets.NUGET_API_KEY }}' 
-      working-directory: /home/runner/work/DataFuse/DataFuse
+      working-directory: /home/runner/work/DataFuse.Net/DataFuse.Net
     steps:
       - name: Step-01 Retrieve Build Artifacts
         uses: actions/download-artifact@v4
@@ -109,7 +109,7 @@ jobs:
     env:
       github-token: '${{ secrets.GH_Packages }}'
       nuget-token: '${{ secrets.NUGET_API_KEY }}' 
-      working-directory: /home/runner/work/DataFuse/DataFuse
+      working-directory: /home/runner/work/DataFuse.Net/DataFuse.Net
     steps:
       - uses: actions/checkout@v4
 

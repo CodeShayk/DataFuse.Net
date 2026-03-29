@@ -1,11 +1,11 @@
-# <img src="https://github.com/CodeShayk/DataFuse/blob/master/Images/data-integration-transparent.png" alt="data" style="width:50px;"/> DataFuse
+# <img src="https://github.com/CodeShayk/DataFuse.Net/blob/master/Images/data-integration-transparent.png" alt="data" style="width:50px;"/> DataFuse
 
 ### Like GraphQL, but for your heterogeneous backend systems
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/CodeShayk/DataFuse/blob/master/LICENSE.md)
-[![Master-Build](https://github.com/CodeShayk/DataFuse/actions/workflows/Build-Master.yml/badge.svg)](https://github.com/CodeShayk/DataFuse/actions/workflows/Build-Master.yml)
-[![GitHub Release](https://img.shields.io/github/v/release/CodeShayk/DataFuse?logo=github&sort=semver)](https://github.com/CodeShayk/DataFuse/releases/latest)
-[![Master-CodeQL](https://github.com/CodeShayk/DataFuse/actions/workflows/Master-CodeQL.yml/badge.svg)](https://github.com/CodeShayk/DataFuse/actions/workflows/Master-CodeQL.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/CodeShayk/DataFuse.Net/blob/master/LICENSE.md)
+[![Master-Build](https://github.com/CodeShayk/DataFuse.Net/actions/workflows/Build-Master.yml/badge.svg)](https://github.com/CodeShayk/DataFuse.Net/actions/workflows/Build-Master.yml)
+[![GitHub Release](https://img.shields.io/github/v/release/CodeShayk/DataFuse.Net?logo=github&sort=semver)](https://github.com/CodeShayk/DataFuse.Net/releases/latest)
+[![Master-CodeQL](https://github.com/CodeShayk/DataFuse.Net/actions/workflows/Master-CodeQL.yml/badge.svg)](https://github.com/CodeShayk/DataFuse.Net/actions/workflows/Master-CodeQL.yml)
 [![.Net 9.0](https://img.shields.io/badge/.Net-9.0-blue)](https://dotnet.microsoft.com/en-us/download/dotnet/9.0)
 
 **DataFuse** is a declarative .NET framework that aggregates data from SQL databases, REST APIs, and Entity Framework into unified, strongly-typed objects — replacing hundreds of lines of manual orchestration code with clean, schema-driven configuration.
@@ -203,7 +203,7 @@ public class ProductService
 
 ## Documentation
 
-See the [Complete Developer Guide](https://codeshayk.github.io/DataFuse/) for detailed documentation including:
+See the [Complete Developer Guide](https://codeshayk.github.io/DataFuse.Net/) for detailed documentation including:
 - Real-world use cases (e-commerce, customer 360, reporting)
 - Core concepts deep dive
 - Query implementation guides (SQL, EF Core, Web API)
@@ -215,7 +215,7 @@ See the [Complete Developer Guide](https://codeshayk.github.io/DataFuse/) for de
 
 ## Support
 
-If you are having problems, please let us know by [raising a new issue](https://github.com/CodeShayk/DataFuse/issues/new/choose).
+If you are having problems, please let us know by [raising a new issue](https://github.com/CodeShayk/DataFuse.Net/issues/new/choose).
 
 ## License
 
@@ -227,5 +227,5 @@ The main branch is now on .NET 9.0. Previous versions:
 
 | Version | Release Notes | Developer Guide |
 |---|---|---|
-| [`v2.0.0`](https://github.com/CodeShayk/DataFuse/tree/v2.0.0) | [Notes](https://github.com/CodeShayk/DataFuse/releases/tag/v2.0.0) | [Guide](https://github.com/CodeShayk/DataFuse/blob/v2.0.0/index.md) |
-| [`v1.0.0`](https://github.com/CodeShayk/DataFuse/tree/v1.0.0) | [Notes](https://github.com/CodeShayk/DataFuse/releases/tag/v1.0.0) | [Guide](https://github.com/CodeShayk/DataFuse/blob/v1.0.0/index.md) |
+| [`v2.0.0`](https://github.com/CodeShayk/DataFuse.Net/tree/v2.0.0) | [Notes](https://github.com/CodeShayk/DataFuse.Net/releases/tag/v2.0.0) | [Guide](https://github.com/CodeShayk/DataFuse.Net/blob/v2.0.0/index.md) |
+| [`v1.0.0`](https://github.com/CodeShayk/DataFuse.Net/tree/v1.0.0) | [Notes](https://github.com/CodeShayk/DataFuse.Net/releases/tag/v1.0.0) | [Guide](https://github.com/CodeShayk/DataFuse.Net/blob/v1.0.0/index.md) |

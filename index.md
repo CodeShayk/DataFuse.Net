@@ -5,8 +5,8 @@
 **DataFuse** is a declarative .NET framework that aggregates data from SQL databases, REST APIs, and Entity Framework into unified, strongly-typed objects — replacing hundreds of lines of manual orchestration code with a clean, schema-driven configuration.
 
 [![.Net 9.0](https://img.shields.io/badge/.Net-9.0-blue)](https://dotnet.microsoft.com/en-us/download/dotnet/9.0)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/CodeShayk/DataFuse/blob/master/LICENSE.md)
-[![GitHub Release](https://img.shields.io/github/v/release/CodeShayk/DataFuse?logo=github&sort=semver)](https://github.com/CodeShayk/DataFuse/releases/latest)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/CodeShayk/DataFuse.Net/blob/master/LICENSE.md)
+[![GitHub Release](https://img.shields.io/github/v/release/CodeShayk/DataFuse.Net?logo=github&sort=semver)](https://github.com/CodeShayk/DataFuse.Net/releases/latest)
 
 ---
 
@@ -1036,7 +1036,7 @@ services.AddHttpClient();
 
 ## Getting Support
 
-- **GitHub**: [github.com/CodeShayk/DataFuse](https://github.com/CodeShayk/DataFuse)
-- **Issues**: [Report bugs and feature requests](https://github.com/CodeShayk/DataFuse/issues)
-- **Wiki**: [Developer guide and documentation](https://github.com/CodeShayk/DataFuse/wiki)
+- **GitHub**: [github.com/CodeShayk/DataFuse.Net](https://github.com/CodeShayk/DataFuse.Net)
+- **Issues**: [Report bugs and feature requests](https://github.com/CodeShayk/DataFuse.Net/issues)
+- **Wiki**: [Developer guide and documentation](https://github.com/CodeShayk/DataFuse.Net/wiki)
 - **Samples**: Check example projects in the repository for real-world usage patterns
