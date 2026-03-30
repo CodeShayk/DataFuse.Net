@@ -9,13 +9,13 @@
     <Authors>Code Shayk</Authors>
     <Company>Code Shayk</Company>
     <Copyright>Copyright (c) 2025 Code Shayk</Copyright>
-    <RepositoryUrl>https://github.com/CodeShayk/DataFuse</RepositoryUrl>
+    <RepositoryUrl>https://github.com/CodeShayk/DataFuse.Net</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageIcon>ninja-icon-16.png</PackageIcon>
     <Description>DataFuse is a powerful .NET library designed to aggregate data from heterogeneous data stores using a schema-driven approach. It enables developers to hydrate complex object graphs by fetching data from multiple sources (SQL databases, Web APIs, NoSQL stores) using XPath and JSONPath schema mappings.</Description>
     <PackageTags>graphql data json-schema xsd data-mapping query-engine data-mapper data-schema schema-mapping object-tree-query object-graph-query schema-mapper xsd-data-object object-graph-data entity-data entity-data-fetch hydrate-object object-hydration object-data object-fetch datafuse datafuse-integration data-aggregator</PackageTags>
-    <PackageProjectUrl>https://github.com/CodeShayk/DataFuse/wiki</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/CodeShayk/DataFuse.Net/wiki</PackageProjectUrl>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <Title>DataFuse Integration</Title>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
@@ -23,8 +23,10 @@
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <Version>3.0.0</Version>
-    <PackageReleaseNotes> v3.0.0 - Targets .NET 10.
-      - Provides Pre and Post Transform hooks.
+    <PackageReleaseNotes>v3.0.0
+- Multi-target framework support: netstandard2.1, net8.0, net9.0, net10.0.
+- Pre and Post Transform hooks for data transformation pipeline.
+- XPath and JSONPath schema-driven data aggregation.
     </PackageReleaseNotes>
   </PropertyGroup>
 

@@ -10,11 +10,11 @@
     <Authors>Code Shayk</Authors>
     <Company>Code Shayk</Company>
     <PackageTags>datafuse data-mapping query-engine data-mapper schema-mapping datafuse-sql dapper-sql dapper data-aggregator</PackageTags>
-    <RepositoryUrl>https://github.com/CodeShayk/DataFuse</RepositoryUrl>
+    <RepositoryUrl>https://github.com/CodeShayk/DataFuse.Net</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageIcon>ninja-icon-16.png</PackageIcon>
-    <PackageProjectUrl>https://github.com/CodeShayk/DataFuse/wiki</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/CodeShayk/DataFuse.Net/wiki</PackageProjectUrl>
     <Copyright>Copyright (c) 2025 Code Shayk</Copyright>
     <Description>DataFuse is a powerful .NET library designed to aggregate data from heterogeneous data stores using a schema-driven approach. This package provides the SQL adapter with Dapper support for querying SQL databases.</Description>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
@@ -23,9 +23,10 @@
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <Version>3.0.0</Version>
-    <PackageReleaseNotes>
-      v3.0.0 - Targets .NET 10.
-      - Provides Pre and Post Transform hooks.
+    <PackageReleaseNotes>v3.0.0
+- Multi-target framework support: netstandard2.1, net8.0, net9.0, net10.0.
+- Pre and Post Transform hooks for data transformation pipeline.
+- Dapper-based SQL query execution.
     </PackageReleaseNotes>
   </PropertyGroup>
 

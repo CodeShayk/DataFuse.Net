@@ -23,9 +23,10 @@
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <Version>3.0.0</Version>
-    <PackageReleaseNotes>
-      v3.0.0 - Initial release targeting .NET 10.
-      - MongoDB adapter for DataFuse data aggregation framework.
+    <PackageReleaseNotes>v3.0.0
+- New MongoDB adapter for DataFuse data aggregation framework.
+- Multi-target framework support: netstandard2.1, net8.0, net9.0, net10.0.
+- MongoDB Driver 3.4.0 based query execution.
     </PackageReleaseNotes>
   </PropertyGroup>
 
