@@ -1,4 +1,4 @@
-# <img src="https://github.com/CodeShayk/DataFuse.Net/blob/master/Images/data-integration-transparent.png" alt="data" style="width:50px;"/> DataFuse
+# <img src="https://github.com/CodeShayk/DataFuse.Net/blob/master/Images/data-integration-transparent.png" alt="data" style="width:50px;"/> DataFuse v3.0.0
 
 ### Like GraphQL, but for your heterogeneous backend systems
 
@@ -6,7 +6,7 @@
 [![Master-Build](https://github.com/CodeShayk/DataFuse.Net/actions/workflows/Build-Master.yml/badge.svg)](https://github.com/CodeShayk/DataFuse.Net/actions/workflows/Build-Master.yml)
 [![GitHub Release](https://img.shields.io/github/v/release/CodeShayk/DataFuse.Net?logo=github&sort=semver)](https://github.com/CodeShayk/DataFuse.Net/releases/latest)
 [![Master-CodeQL](https://github.com/CodeShayk/DataFuse.Net/actions/workflows/Master-CodeQL.yml/badge.svg)](https://github.com/CodeShayk/DataFuse.Net/actions/workflows/Master-CodeQL.yml)
-[![.Net 9.0](https://img.shields.io/badge/.Net-9.0-blue)](https://dotnet.microsoft.com/en-us/download/dotnet/9.0)
+[![.Net 10.0](https://img.shields.io/badge/.Net-10.0-blue)](https://dotnet.microsoft.com/en-us/download/dotnet/10.0)
 
 **DataFuse** is a declarative framework that aggregates data from SQL databases, REST APIs, and any heterogeneous datsource into unified, strongly-typed objects — replacing hundreds of lines of manual orchestration code with clean, schema-driven configuration.
 
@@ -224,11 +224,12 @@ public class ProductService
 
 | Package | .NET | .NET Standard | .NET Framework |
 |---|---|---|---|
-| DataFuse.Integration | 9.0+ | 2.0, 2.1 | 4.6.2+ |
-| DataFuse.Adapters.SQL | 9.0+ | 2.1 | 4.6.2+ |
-| DataFuse.Adapters.EntityFramework | 9.0+ | - | - |
-| DataFuse.Adapters.WebAPI | 9.0+ | 2.0, 2.1 | 4.6.2+ |
-| DataFuse.Adapters.MongoDB | 9.0+ | - | - |
+| DataFuse.Integration | 8.0, 9.0, 10.0 | 2.1 | - |
+| DataFuse.Adapters.Abstraction | 8.0, 9.0, 10.0 | 2.1 | - |
+| DataFuse.Adapters.SQL | 8.0, 9.0, 10.0 | 2.1 | - |
+| DataFuse.Adapters.WebAPI | 8.0, 9.0, 10.0 | 2.1 | - |
+| DataFuse.Adapters.MongoDB | 8.0, 9.0, 10.0 | 2.1 | - |
+| DataFuse.Adapters.EntityFramework | 10.0 | - | - |
 
 ---
 
@@ -254,9 +255,10 @@ This project is licensed with the [MIT license](LICENSE).
 
 ## Version History
 
-The main branch is now on .NET 9.0. Previous versions:
+The main branch is now on .NET 10.0. Previous versions:
 
 | Version | Release Notes | Developer Guide |
 |---|---|---|
+| [`v3.0.0`](https://github.com/CodeShayk/DataFuse.Net/tree/v3.0.0) | [Notes](https://github.com/CodeShayk/DataFuse.Net/releases/tag/v3.0.0) | [Guide](https://github.com/CodeShayk/DataFuse.Net/blob/v3.0.0/index.md) |
 | [`v2.0.0`](https://github.com/CodeShayk/DataFuse.Net/tree/v2.0.0) | [Notes](https://github.com/CodeShayk/DataFuse.Net/releases/tag/v2.0.0) | [Guide](https://github.com/CodeShayk/DataFuse.Net/blob/v2.0.0/index.md) |
 | [`v1.0.0`](https://github.com/CodeShayk/DataFuse.Net/tree/v1.0.0) | [Notes](https://github.com/CodeShayk/DataFuse.Net/releases/tag/v1.0.0) | [Guide](https://github.com/CodeShayk/DataFuse.Net/blob/v1.0.0/index.md) |

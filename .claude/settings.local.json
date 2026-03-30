@@ -7,7 +7,20 @@
       "Bash(dotnet:*)",
       "Bash(git status:*)",
       "Bash(git add:*)",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "Bash(sed 's/^A\\\\t//')",
+      "Bash(grep \"\\\\.csproj$\")",
+      "Bash(sed 's/^D\\\\t//')",
+      "Bash(git stash:*)",
+      "Bash(git pull:*)",
+      "Bash(python3 -c \":*)",
+      "Bash(for pkg:*)",
+      "Bash(do)",
+      "Bash(echo \"=== $pkg ===\")",
+      "Read(//c/Users/najaf/.nuget/packages/$pkg/**)",
+      "Bash(done)",
+      "Bash(git push:*)",
+      "Bash(git checkout:*)"
     ]
   }
 }

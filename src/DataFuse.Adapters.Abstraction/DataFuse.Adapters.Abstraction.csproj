@@ -8,14 +8,14 @@
     <IsPackable>true</IsPackable>
     <Authors>Code Shayk</Authors>
     <Company>Code Shayk</Company>
-    <Copyright>Copyright (c) 2025 Code Shayk</Copyright>
-    <RepositoryUrl>https://github.com/CodeShayk/DataFuse</RepositoryUrl>
+    <Copyright>Copyright (c) 2026 Code Shayk</Copyright>
+    <RepositoryUrl>https://github.com/CodeShayk/DataFuse.Net</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackageIcon>ninja-icon-16.png</PackageIcon>
+    <PackageIcon>data-integration-transparent.png</PackageIcon>
     <Description>DataFuse adapter abstraction layer. Contains interfaces and base classes needed for implementing custom data adapters (SQL, Entity Framework, Web API, etc.).</Description>
     <PackageTags>datafuse adapter abstraction data-mapping query-engine data-mapper schema-mapping data-aggregator</PackageTags>
-    <PackageProjectUrl>https://github.com/CodeShayk/DataFuse/wiki</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/CodeShayk/DataFuse.Net/wiki</PackageProjectUrl>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <Title>DataFuse Adapters Abstraction</Title>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
@@ -23,12 +23,14 @@
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <Version>3.0.0</Version>
-    <PackageReleaseNotes> v3.0.0 - Targets .NET 10.
+    <PackageReleaseNotes>v3.0.0
+- Multi-target framework support: netstandard2.1, net8.0, net9.0, net10.0.
+- Added CacheResult attribute for query result caching.
     </PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="..\..\Images\ninja-icon-16.png">
+    <None Include="..\..\Images\data-integration-transparent.png">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>

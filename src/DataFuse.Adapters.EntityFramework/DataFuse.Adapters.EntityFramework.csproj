@@ -10,11 +10,11 @@
     <Authors>Code Shayk</Authors>
     <Company>Code Shayk</Company>
     <Description>DataFuse is a powerful .NET library designed to aggregate data from heterogeneous data stores using a schema-driven approach. This package provides the Entity Framework adapter for querying databases.</Description>
-    <Copyright>Copyright (c) 2025 Code Shayk</Copyright>
-    <PackageProjectUrl>https://github.com/CodeShayk/DataFuse/wiki</PackageProjectUrl>
-    <PackageIcon>ninja-icon-16.png</PackageIcon>
+    <Copyright>Copyright (c) 2026 Code Shayk</Copyright>
+    <PackageProjectUrl>https://github.com/CodeShayk/DataFuse.Net/wiki</PackageProjectUrl>
+    <PackageIcon>data-integration-transparent.png</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <RepositoryUrl>https://github.com/CodeShayk/DataFuse</RepositoryUrl>
+    <RepositoryUrl>https://github.com/CodeShayk/DataFuse.Net</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>datafuse data-mapping query-engine data-mapper schema-mapping datafuse-entity-framework entity-framework data-aggregator</PackageTags>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
@@ -23,9 +23,10 @@
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <Version>3.0.0</Version>
-    <PackageReleaseNotes>
-      v3.0.0 - Targets .NET 10.
-      - Provides Pre and Post Transform hooks.
+    <PackageReleaseNotes>v3.0.0
+- Targets .NET 10.0.
+- Pre and Post Transform hooks for data transformation pipeline.
+- Entity Framework Core 10.0 based query execution.
     </PackageReleaseNotes>
   </PropertyGroup>
 
@@ -34,7 +35,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="..\..\Images\ninja-icon-16.png">
+    <None Include="..\..\Images\data-integration-transparent.png">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
