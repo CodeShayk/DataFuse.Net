@@ -20,7 +20,11 @@
       "Read(//c/Users/najaf/.nuget/packages/$pkg/**)",
       "Bash(done)",
       "Bash(git push:*)",
-      "Bash(git checkout:*)"
+      "Bash(git checkout:*)",
+      "Bash(find /c/Work/Projects/Published/DataFuse -name *.md -type f)",
+      "Bash(ls:*)",
+      "Bash(find /c/Work/Projects/Published/DataFuse/src -name *.cs -type f)",
+      "Bash(xargs grep:*)"
     ]
   }
 }

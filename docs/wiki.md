@@ -22,7 +22,8 @@
 8. [Advanced Features](#advanced-features)
 9. [Architecture](#architecture)
 10. [Best Practices](#best-practices)
-11. [Getting Support](#getting-support)
+11. [Migrating from Schemio to DataFuse](#migrating-from-schemio-v2x-to-datafuse-v300)
+12. [Getting Support](#getting-support)
 
 ---
 
@@ -550,13 +551,14 @@ Request/response header management, JSON deserialization.
 
 ### Compatibility
 
-| Package | .NET Framework | .NET Standard | .NET |
-|---|---|---|---|
-| DataFuse.Integration | 4.6.2+ | 2.0, 2.1 | 9.0+ |
-| DataFuse.Adapters.SQL | 4.6.2+ | 2.1 | 9.0+ |
-| DataFuse.Adapters.EntityFramework | - | - | 9.0+ |
-| DataFuse.Adapters.MongoDB | - | - | 9.0+ |
-| DataFuse.Adapters.WebAPI | 4.6.2+ | 2.0, 2.1 | 9.0+ |
+| Package | Target Frameworks |
+|---|---|
+| DataFuse.Adapters.Abstraction | netstandard2.1, net8.0, net9.0, net10.0 |
+| DataFuse.Integration | netstandard2.1, net8.0, net9.0, net10.0 |
+| DataFuse.Adapters.SQL | netstandard2.1, net8.0, net9.0, net10.0 |
+| DataFuse.Adapters.EntityFramework | net10.0 |
+| DataFuse.Adapters.MongoDB | netstandard2.1, net8.0, net9.0, net10.0 |
+| DataFuse.Adapters.WebAPI | netstandard2.1, net8.0, net9.0, net10.0 |
 
 ---
 
@@ -1117,6 +1119,94 @@ services.UseDataFuse()
 services.AddLogging();
 services.AddHttpClient();
 ```
+
+---
+
+## Migrating from Schemio (v2.x) to DataFuse (v3.0.0)
+
+DataFuse v3.0.0 is a complete rebrand of the Schemio framework. All package names, namespaces, and registration APIs have changed. Follow this guide to upgrade your project.
+
+### Step 1: Update NuGet Packages
+
+Remove the old Schemio packages and install the new DataFuse equivalents:
+
+| Old Package (Remove)       | New Package (Install)                |
+|----------------------------|--------------------------------------|
+| `Schemio.Core`             | `DataFuse.Adapters.Abstraction` + `DataFuse.Integration` |
+| `Schemio.SQL`              | `DataFuse.Adapters.SQL`              |
+| `Schemio.EntityFramework`  | `DataFuse.Adapters.EntityFramework`  |
+| `Schemio.API`              | `DataFuse.Adapters.WebAPI`           |
+
+```bash
+# Remove old packages
+dotnet remove package Schemio.Core
+dotnet remove package Schemio.SQL
+dotnet remove package Schemio.EntityFramework
+dotnet remove package Schemio.API
+
+# Install new packages
+dotnet add package DataFuse.Integration
+dotnet add package DataFuse.Adapters.SQL
+dotnet add package DataFuse.Adapters.EntityFramework
+dotnet add package DataFuse.Adapters.WebAPI
+dotnet add package DataFuse.Adapters.MongoDB  # New in v3.0.0
+```
+
+### Step 2: Update Namespaces
+
+Find and replace `using` statements across your codebase:
+
+| Old Namespace              | New Namespace                        |
+|----------------------------|--------------------------------------|
+| `using Schemio;`           | `using DataFuse.Adapters.Abstraction;` |
+| `using Schemio.SQL;`       | `using DataFuse.Adapters.SQL;`       |
+| `using Schemio.EntityFramework;` | `using DataFuse.Adapters.EntityFramework;` |
+| `using Schemio.API;`       | `using DataFuse.Adapters.WebAPI;`    |
+
+### Step 3: Update DI Registration
+
+The service registration method and options builder have been renamed:
+
+```csharp
+// Before (Schemio v2.x)
+services.UseSchemio(new SchemioOptionsBuilder()
+    .WithEngine(c => new QueryEngine(sqlConfig))
+    .WithPathMatcher(c => new XPathMatcher())
+    .WithEntityConfiguration<Customer>(c => new CustomerConfiguration()));
+
+// After (DataFuse v3.0.0)
+services.UseDataFuse(new DataFuseOptionsBuilder()
+    .WithEngine(c => new QueryEngine(sqlConfig))
+    .WithPathMatcher(c => new XPathMatcher())
+    .WithEntityConfiguration<Customer>(c => new CustomerConfiguration()));
+```
+
+**Changed APIs:**
+
+| Old (Schemio)              | New (DataFuse)                       |
+|----------------------------|--------------------------------------|
+| `UseSchemio()`             | `UseDataFuse()`                      |
+| `SchemioOptionsBuilder`    | `DataFuseOptionsBuilder`             |
+| `ISchemioOptions`          | `IDataFuseOptions`                   |
+
+### Step 4: Verify
+
+No changes are required to your queries, transformers, entity configurations, or schema definitions — only the package references, namespaces, and DI registration need updating. After making these changes:
+
+1. Build the solution and resolve any remaining namespace errors
+2. Run your existing tests to confirm behavior is unchanged
+3. Verify DI registration at startup
+
+### New in v3.0.0
+
+After migrating, you can take advantage of new features:
+
+- **MongoDB Adapter** — aggregate data from MongoDB collections with `DataFuse.Adapters.MongoDB`
+- **Transform Hooks** — use `ITransformerHooks` with `PreTransformContext` and `PostTransformContext` for pipeline control
+- **Query Result Caching** — mark results with `[CacheResult]` for automatic caching
+- **Multi-Target Framework Support** — packages now support `netstandard2.1`, `net8.0`, `net9.0`, and `net10.0`
+
+See the [Release Notes](RELEASE_NOTES.md) for full details.
 
 ---
 
