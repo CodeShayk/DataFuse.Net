@@ -10,9 +10,9 @@
     <Authors>Code Shayk</Authors>
     <Company>Code Shayk</Company>
     <Description>DataFuse is a powerful .NET library designed to aggregate data from heterogeneous data stores using a schema-driven approach. This package provides the Entity Framework adapter for querying databases.</Description>
-    <Copyright>Copyright (c) 2025 Code Shayk</Copyright>
+    <Copyright>Copyright (c) 2026 Code Shayk</Copyright>
     <PackageProjectUrl>https://github.com/CodeShayk/DataFuse.Net/wiki</PackageProjectUrl>
-    <PackageIcon>ninja-icon-16.png</PackageIcon>
+    <PackageIcon>data-integration-transparent.png</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryUrl>https://github.com/CodeShayk/DataFuse.Net</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
@@ -35,7 +35,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="..\..\Images\ninja-icon-16.png">
+    <None Include="..\..\Images\data-integration-transparent.png">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>

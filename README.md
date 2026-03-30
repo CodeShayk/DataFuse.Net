@@ -1,4 +1,4 @@
-# <img src="https://github.com/CodeShayk/DataFuse.Net/blob/master/Images/data-integration-transparent.png" alt="data" style="width:50px;"/> DataFuse
+# <img src="https://github.com/CodeShayk/DataFuse.Net/blob/master/Images/data-integration-transparent.png" alt="data" style="width:50px;"/> DataFuse v3.0.0
 
 ### Like GraphQL, but for your heterogeneous backend systems
 

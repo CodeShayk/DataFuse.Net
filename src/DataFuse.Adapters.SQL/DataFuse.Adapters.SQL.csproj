@@ -13,9 +13,9 @@
     <RepositoryUrl>https://github.com/CodeShayk/DataFuse.Net</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackageIcon>ninja-icon-16.png</PackageIcon>
+    <PackageIcon>data-integration-transparent.png</PackageIcon>
     <PackageProjectUrl>https://github.com/CodeShayk/DataFuse.Net/wiki</PackageProjectUrl>
-    <Copyright>Copyright (c) 2025 Code Shayk</Copyright>
+    <Copyright>Copyright (c) 2026 Code Shayk</Copyright>
     <Description>DataFuse is a powerful .NET library designed to aggregate data from heterogeneous data stores using a schema-driven approach. This package provides the SQL adapter with Dapper support for querying SQL databases.</Description>
     <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
@@ -35,7 +35,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="..\..\Images\ninja-icon-16.png">
+    <None Include="..\..\Images\data-integration-transparent.png">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
